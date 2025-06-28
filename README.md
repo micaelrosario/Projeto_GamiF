@@ -56,7 +56,7 @@ O GamiF segue uma arquitetura em camadas, facilitando a separação de responsab
 * **Backend:** Servidor de aplicação (API) que processa a lógica de negócio e se comunica com o banco de dados.
 * **Database:** Armazenamento persistente dos dados do sistema (usuários, quizzes, progresso).
 
-*([https://drive.google.com/file/d/19_QBu7iIXAPJTy9l_coCD9qG3TbkelO1/view?usp=drive_link](url))*
+*([https://drive.google.com/file/d/19_QBu7iIXAPJTy9l_coCD9qG3TbkelO1/view?usp=drive_link])*
 
 ## ⚙️ Metodologia de Desenvolvimento
 

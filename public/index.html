@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Aprendizado ADS</title>
-    <link rel="stylesheet" href="style.css">
+    <title>GAMIF</title>
+    <link rel="stylesheet" href="css/style.css"> 
     <script type="importmap">
-    {
-        "imports": {
-            "confetti-js": "https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js",
-            "./js/data.js": "./js/data.js",
-            "./js/ui.js": "./js/ui.js",
-            "./js/state.js": "./js/state.js",
-            "./js/confetti.js": "./js/confetti.js"
+       {
+            "imports": {
+                "confetti-lib": "./script/confetti-js-master/dist/index.min.js", 
+                
+                "./script/data.js": "./script/data.js", 
+                "./script/ui.js": "./script/ui.js",
+                "./script/state.js": "./script/state.js",
+                "./script/confetti.js": "./script/confetti.js" }
         }
-    }
     </script>
 </head>
 <body>
     <div id="app-container">
         <header>
-            <img src="/gamif_logo.png" alt="GamiF Logo" id="app-logo">
+            <img src="./assets/image/logo_gamif.webp" alt="GamiF Logo" id="app-logo"> 
+            
             <img src="" alt="Module Image" id="module-header-image" style="display: none; max-height: 80px; margin-bottom: 10px; border-radius: 8px;">
             <h1 id="page-title">Carregando...</h1>
             <p id="page-subtitle">Carregando...</p>
         </header>
 
         <main id="modules-container">
-            <!-- Os módulos serão inseridos aqui pelo JavaScript -->
         </main>
 
         <main id="quiz-container" style="display: none;">
@@ -43,8 +43,7 @@
             <div id="question-area">
                 <h2 id="question-text">Carregando pergunta...</h2>
                 <div id="options-container">
-                    <!-- As opções serão inseridas aqui pelo JavaScript -->
-                </div>
+                    </div>
             </div>
             <div id="feedback-area">
                 <p id="feedback-text"></p>
@@ -57,10 +56,10 @@
 
         <footer>
             <p>Criado para aprendizado de programação e ADS</p>
-            <p class="font-info">Fonte principal: Segoe UI (com fallback para Tahoma, Geneva, Verdana, sans-serif)</p>
         </footer>
     </div>
     <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
-    <script type="module" src="script.js"></script>
+    
+    <script type="module" src="./script/script.js"></script>
 </body>
 </html>

@@ -1,5 +1,15 @@
+// data.js - Módulo de Definição de Módulos e Dados de Quizzes
+
+// modules: Array de objetos, onde cada objeto representa um módulo de quiz na aplicação.
+// Contém metadados sobre cada módulo que serão exibidos na tela inicial.
 export const modules = [
-    { id: "logica-programacao", title: "Lógica de Programação", description: "Domine algoritmos para resolver problemas e dar vida às suas ideias.", image: "./assets/image/logica.png", locked: false },
+    { 
+        id: "logica-programacao",        // ID único do módulo (usado para referenciar o quizData e o progresso)
+        title: "Lógica de Programação", // Título visível do módulo
+        description: "Pense e programe! Resolva problemas com lógica e algoritmos.", // Descrição convidativa do módulo
+        image: "./assets/image/logica.png", // Caminho da imagem de capa do módulo
+        locked: false                   // Indica se o módulo está bloqueado (true) ou disponível (false)
+    },
     { id: "estruturas-dados", title: "Estruturas de Dados", description: "Aprenda sobre listas, filas, pilhas, árvores e grafos.", image: "./assets/image/estrutura-de-dados.png", locked: true },
     { id: "banco-dados", title: "Banco de Dados", description: "Aprenda conceitos de modelagem, SQL e NoSQL.", image: "./assets/image/banco_de_dados.png", locked: true },
     { id: "poo", title: "Programação Orientada a Objetos", description: "Entenda classes, objetos, herança e polimorfismo.", image: "./assets/image/poo1.png", locked: true },
@@ -7,19 +17,23 @@ export const modules = [
     { id: "redes-computadores", title: "Redes de Computadores", description: "Entenda redes, protocolos e a segurança que move a internet.", image: "./assets/image/redes_de_computadores.png", locked: true }
 ];
 
+// quizData: Objeto que armazena as perguntas e respostas de cada quiz, indexado pelo ID do módulo.
+// Cada chave neste objeto corresponde ao 'id' de um módulo definido no array 'modules'.
 export const quizData = {
+    // Dados do quiz para o módulo 'Lógica de Programação'
     "logica-programacao": {
+        // 'questions': Um array de objetos, onde cada objeto é uma pergunta do quiz.
         questions: [
             {
-                question: "O que é um algoritmo?",
-                options: [
+                question: "O que é um algoritmo?", // O enunciado da pergunta.
+                options: [ // Array de strings com as opções de resposta.
                     "Um tipo de linguagem de programação.",
                     "Uma sequência finita de instruções bem definidas para resolver um problema.",
                     "Um componente de hardware do computador.",
                     "Um software para debugging de código."
                 ],
-                correctAnswer: "Uma sequência finita de instruções bem definidas para resolver um problema.",
-                explanation: "Um <strong>algoritmo</strong> é como uma receita: um conjunto de passos claros e ordenados que, quando seguidos corretamente, levam à solução de um problema específico ou à execução de uma tarefa."
+                correctAnswer: "Uma sequência finita de instruções bem definidas para resolver um problema.", // A resposta correta (deve corresponder a uma das opções).
+                explanation: "Um <strong>algoritmo</strong> é como uma receita: um conjunto de passos claros e ordenados que, quando seguidos corretamente, levam à solução de um problema específico ou à execução de uma tarefa." // Explicação da resposta para feedback.
             },
             {
                 question: "Qual dos seguintes é um exemplo de estrutura de repetição (loop)?",
@@ -63,7 +77,7 @@ export const quizData = {
                     "Criar interfaces gráficas atraentes para o usuário."
                 ],
                 correctAnswer: "Desenvolver a capacidade de criar sequências lógicas para resolver problemas.",
-                explanation: "A <strong>lógica de programação</strong> é a base para a construção de qualquer software. Ela ensina a organizar o pensamento de forma estruturada para que um computador possa entender e executar as instruções para resolver um problema."
+                explanation: "A <strong>lógica de programação</strong> é a base para a construção de qualquer software. Ela ensina a organizar o pensamento de forma estruturada para que um computador possa entender e executar as instruções para resolver o problema."
             }
         ]
     }

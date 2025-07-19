@@ -28,20 +28,29 @@ const firebaseConfig = {
 // Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app); // Obtém o serviço de autenticação
-const db = getDatabase(app); // NOVO: Obtém a instância do Realtime Database
+const db = getDatabase(app); // Obtém a instância do Realtime Database
 
 // --- Referências aos elementos HTML específicos dos formulários de autenticação ---
-// (Você já deve ter estes no seu auth.js, apenas confirmando)
-const loginForm = document.getElementById('login-form');
-const registerForm = document.getElementById('register-form');
-const showRegisterLink = document.getElementById('show-register');
-const showLoginLink = document.getElementById('show-login');
-const registerNameInput = document.getElementById('register-name');
-const googleRegisterButton = document.getElementById('google-register-button');
+// Formulário de Login
+const loginEmailInput = document.getElementById('login-email'); // Corrigir ID no HTML
+const loginPasswordInput = document.getElementById('login-password'); // Corrigir ID no HTML
+const loginButton = document.getElementById('login-button'); // Botão de Entrar do Login
+const googleLoginButton = document.getElementById('google-login-button'); // Botão Google do Login
 
-// Mensagem de Erro para Login e Cadastro ...
-const authErrorMessageLogin = document.getElementById('auth-error-message-login'); // NOVO ID
-const authErrorMessageRegister = document.getElementById('auth-error-message-register'); // NOVO ID
+// Formulário de Cadastro
+const registerNameInput = document.getElementById('register-name');
+const registerEmailInput = document.getElementById('register-email');
+const registerPasswordInput = document.getElementById('register-password');
+const registerButton = document.getElementById('register-button'); // Adicionar ID ao botão de cadastro no HTML
+// const googleRegisterButton = document.getElementById('google-register-button'); // Este botão não existe no HTML que você enviou para o formulário de cadastro. Se quiser, adicione-o.
+
+// Mensagens de Erro
+const authErrorMessageLogin = document.getElementById('auth-error-message-login');
+const authErrorMessageRegister = document.getElementById('auth-error-message-register');
+
+// --- CORREÇÃO: Adicionar as declarações showRegisterLink e showLoginLink ---
+const showRegisterLink = document.getElementById('show-register'); 
+const showLoginLink = document.getElementById('show-login'); 
 
 // --- Funções de Utilitário da UI (ATUALIZADAS) ---
 
@@ -58,20 +67,15 @@ function displayError(message, formType = 'login') { // 'formType' pode ser 'log
 
 // --- Funções para alternar a visibilidade dos formulários ---
 
-/**
- * Exibe o formulário de login e esconde o de cadastro.
- */
-function showLoginForm() {
-    loginForm.style.display = 'block';   // Torna o formulário de login visível
-    registerForm.style.display = 'none'; // Esconde o formulário de cadastrar 
-}
-
-/**
- * Exibe o formulário de cadastro e esconde o de login.
- */
-function showRegisterForm() {
-    loginForm.style.display = 'none';   // Esconde o formulário de login
-    registerForm.style.display = 'block'; // Torna o formulário de cadastro visível
+// Função para mostrar um formulário e esconder o outro
+function showForm(formToShow) {
+    if (formToShow === 'login') {
+        loginForm.style.display = 'block'; // Mostra o formulário de login
+        registerForm.style.display = 'none'; // Esconde o formulário de registro
+    } else if (formToShow === 'register') {
+        registerForm.style.display = 'block'; // Mostra o formulário de registro
+        loginForm.style.display = 'none'; // Esconde o formulário de login
+    }
 }
 
 // --- Adicionar Listeners de Eventos aos Links ---
@@ -80,7 +84,7 @@ function showRegisterForm() {
 if (showRegisterLink) { // Verifica se o elemento existe antes de adicionar o listener
     showRegisterLink.addEventListener('click', (e) => {
         e.preventDefault(); // Previne o comportamento padrão do link (evita que a página recarregue ou role)
-        showRegisterForm(); // Chama a função para mostrar o formulário de cadastro
+        showForm('register')
     });
 }
 
@@ -88,9 +92,14 @@ if (showRegisterLink) { // Verifica se o elemento existe antes de adicionar o li
 if (showLoginLink) { // Verifica se o elemento existe antes de adicionar o listener
     showLoginLink.addEventListener('click', (e) => {
         e.preventDefault(); // Previne o comportamento padrão do link
-        showLoginForm();    // Chama a função para mostrar o formulário de login
+        showForm('login');    // Chama a função para mostrar o formulário de login
     });
 }
+
+// Opcional: Mostrar o formulário de login por padrão ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+    showForm('login');
+});
 
 // --- Funções de Autenticação (ATUALIZADAS para usar o novo displayError) ---
 

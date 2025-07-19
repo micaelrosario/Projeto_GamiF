@@ -262,7 +262,7 @@ if (showLoginLink) {
 // --- COMPORTAMENTO INICIAL AO CARREGAR A PÁGINA ---
 // Garante que o formulário de login seja exibido por padrão quando auth.html é carregado.
 document.addEventListener('DOMContentLoaded', () => {
-    showForm('register');
+    showForm('login');
 });
 
 // --- VERIFICAÇÃO DE ESTADO DE AUTENTICAÇÃO (Opcional, mas útil) ---

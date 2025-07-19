@@ -63,9 +63,7 @@ function displayError(message, formType = 'login') { // 'formType' pode ser 'log
  */
 function showLoginForm() {
     loginForm.style.display = 'block';   // Torna o formulário de login visível
-    registerForm.style.display = 'none'; // Esconde o formulário de cadastro
-    // Opcional: Limpar mensagens de erro ao trocar de formulário
-    // if (authErrorMessage) authErrorMessage.textContent = ''; 
+    registerForm.style.display = 'none'; // Esconde o formulário de cadastrar 
 }
 
 /**
@@ -74,8 +72,6 @@ function showLoginForm() {
 function showRegisterForm() {
     loginForm.style.display = 'none';   // Esconde o formulário de login
     registerForm.style.display = 'block'; // Torna o formulário de cadastro visível
-    // Opcional: Limpar mensagens de erro ao trocar de formulário
-    // if (authErrorMessage) authErrorMessage.textContent = '';
 }
 
 // --- Adicionar Listeners de Eventos aos Links ---

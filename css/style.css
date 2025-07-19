@@ -15,16 +15,7 @@ body {
     justify-content: center;
     align-items: flex-start; 
     min-height: 100vh;
-}
-
-#app-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    width: 95%;
-    max-width: 800px; 
-    text-align: center;
+    height: 100%;
 }
 
 header {
@@ -53,26 +44,13 @@ header p {
 }
 
 #modules-container {
-    display: grid;
-    /*grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
-    grid-template-columns: 1fr;
     gap: 15px;
-    margin-top: 20px;
 }
 
 .module-item {
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
     border-radius: 12px;
-    padding: 15px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    justify-content: space-between;
-    min-height: 250px;
 }
 
 .module-item:hover {
@@ -361,6 +339,114 @@ footer p.font-info {
     margin-top: 5px;
 }
 
+#google-login-button:hover {
+    background-color: #f0f0f0; /* Um cinza muito claro, quase branco */
+    border-color: #e0e0e0;     /* Borda ligeiramente mais clara */
+    color: #333333;
+}
+
+.btn{
+    transition: all 0.1s ease-out;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    box-shadow: 0 5px 0 #0056b3 !important;
+}
+
+.btn-primary:active {
+    box-shadow: none;
+    transform: translateY(5px);
+    background-color: #0056b3; 
+}
+
+/* --- Estilos para o Botão Google com Efeito de Clique --- */
+.btn-google-effect {
+    /* Fundo branco como no protótipo */
+    background-color: white !important; 
+    /* Cor do texto (azul do Google) */
+    color: #4285F4 !important; 
+    /* Borda suave para o botão branco */
+    border: 1px solid #dadce0 !important; 
+    /* Sombra para dar a impressão de profundidade (abaixo do botão) */
+    /* 0 horizontal, 5px vertical, 0 blur, cor da sombra (um cinza mais escuro, semelhante ao Duolingo) */
+    box-shadow: 0 3px 0 #cccccc !important; 
+    /* Transição suave para o efeito de clique */
+    transition: all 0.1s ease-out; 
+}
+
+/* Efeito ao passar o mouse sobre o botão Google (hover) */
+.btn-google-effect:hover {
+    /* Fundo ligeiramente mais escuro no hover */
+    background-color: #f8f8f8 !important; 
+    border-color: #a9a9a9 !important; /* Borda ligeiramente mais escura no hover */
+}
+
+/* Efeito ao CLICAR no botão Google (active) */
+.btn-google-effect:active {
+    box-shadow: none !important; /* Remove a sombra */
+    transform: translateY(5px); /* Move o botão para baixo para simular o clique */
+    /* Mantenha a cor de fundo normal ou ligeiramente mais escura se desejar */
+    background-color: #e0e0e0 !important; /* Um cinza bem claro ao clicar, ou #f0f0f0 */
+    border-color: #b0b0b0 !important;
+}
+
+
+/* Estilos para o botão de Sucesso (ex: "REGISTRAR") */
+.btn-success {
+    background-color: #28a745; 
+    box-shadow: 0 5px 0 #1e7e34; 
+    border: none;
+}
+
+/* Efeito ao CLICAR no botão de Sucesso */
+.btn-success:active {
+    box-shadow: none;
+    transform: translateY(5px);
+    background-color: #1e7e34;
+}
+
+/*Para os botões de opção do Quiz (.option-button) --- */
+.option-button {
+    box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+    transition: all 0.1s ease-out; 
+    border: none;
+}
+
+.option-button:active {
+    box-shadow: none;
+    transform: translateY(4px); 
+}
+
+/* Para o botão "Próxima Pergunta" (#next-button) --- */
+#next-button {
+    box-shadow: 0 5px 0 #1e7e34;
+    transition: all 0.1s ease-out;
+    border: none;
+}
+
+#next-button:active {
+    box-shadow: none;
+    transform: translateY(5px);
+}
+
+/*Para o botão "Voltar aos Módulos" (.nav-button) --- */
+.nav-button { 
+    box-shadow: 0 5px 0 #5a6268; 
+    transition: all 0.1s ease-out;
+    border: none;
+}
+
+.nav-button:active {
+    box-shadow: none;
+    transform: translateY(5px);
+}
+
+
+
+
+
 @keyframes fadeIn {
     to {
         opacity: 1;
@@ -373,13 +459,6 @@ footer p.font-info {
     .nav-button {
         margin-left: 0; 
         margin-right: auto;
-    }
-}
-
-@media (min-width: 375px) {
-    #modules-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
     }
 }
 

@@ -363,16 +363,10 @@ footer p.font-info {
 
 /* --- Estilos para o Botão Google com Efeito de Clique --- */
 .btn-google-effect {
-    /* Fundo branco como no protótipo */
     background-color: white !important; 
-    /* Cor do texto (azul do Google) */
     color: #4285F4 !important; 
-    /* Borda suave para o botão branco */
     border: 1px solid #dadce0 !important; 
-    /* Sombra para dar a impressão de profundidade (abaixo do botão) */
-    /* 0 horizontal, 5px vertical, 0 blur, cor da sombra (um cinza mais escuro, semelhante ao Duolingo) */
     box-shadow: 0 3px 0 #cccccc !important; 
-    /* Transição suave para o efeito de clique */
     transition: all 0.1s ease-out; 
 }
 
@@ -392,17 +386,13 @@ footer p.font-info {
     border-color: #b0b0b0 !important;
 }
 
-
-/* Estilos para o botão de Sucesso (ex: "REGISTRAR") */
 .btn-success {
     background-color: #28a745; 
-    box-shadow: 0 5px 0 #1e7e34; 
-    border: none;
+    box-shadow: 0 5px 0 #1e7e34 !important; /* Adicionado !important aqui */
 }
 
-/* Efeito ao CLICAR no botão de Sucesso */
 .btn-success:active {
-    box-shadow: none;
+    box-shadow: none !important; /* Adicionado !important para consistência */
     transform: translateY(5px);
     background-color: #1e7e34;
 }

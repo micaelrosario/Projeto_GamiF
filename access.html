@@ -3,22 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GamiF - Login/Cadastro</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css"> 
-    <script type="importmap">
-       {
-            "imports": {
-                "./script/auth.js": "./script/auth.js", 
-            }
-        }
-    </script>
+    <title>GamiF - Acesso</title>
+    <!-- Bootstrap CSS para um layout básico e responsivo -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <!-- Estilo CSS mínimo para centralizar o card -->
+     <link rel="stylesheet" href="css/style.css"> 
 </head>
-    <body class="d-flex align-items-center py-4">
-        <main class="card p-4 shadow-lg rounded-4"> 
-            <div id="login-form" class="card-body text-center"> 
-                <h1 class="card-title fw-bold text-primary my-4">Entrar</h1>
-                <p class="mb-4 text-body-secondary">Use suas credenciais para acessar o painel de aprendizado!</p>
+<body class="d-flex align-items-center py-4">
+    <main class="card py-4 shadow-lg rounded-4"> 
+        <!-- Formulário de Login -->
+        <div id="login-form" class="card-body text-center mx-4"> 
+            <h1 class="card-title fw-bold text-primary mb-4">Entrar</h1>
+                <!--<p class="mb-4 text-body-secondary">Use suas credenciais para acessar o painel de aprendizado!</p>-->
                 <form>
                     <div class="form-floating mb-3"> 
                         <input type="email" id="login-email" class="form-control form-control-lg rounded-3" placeholder="E-mail ou nome de usuário" required>
@@ -28,9 +24,9 @@
                         <input type="password" id="login-password" class="form-control form-control-lg rounded-3" placeholder="Senha" required>
                         <label for="floatingInput">Senha</label>
                     </div>
-                        <p id="auth-error-message-login" class="text-danger small text-start mb-3" style="min-height: 1.5;" ></p>
-                        <button id="login-button" type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm">ENTRAR</button>
-                    </form>
+                    <p id="auth-error-message-login" class="text-danger small text-start mb-3" style="min-height: 1.5;" ></p>
+                    <button id="login-button" type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm">ENTRAR</button>
+                </form>
 
                 <div class="d-flex align-items-center my-3">
                     <hr class="flex-grow-1 border-secondary"> <span class="mx-3 text-muted fw-bold">OU</span> <hr class="flex-grow-1 border-secondary">
@@ -46,16 +42,17 @@
                     <a href="#" class="text-decoration-none text-primary fw-bold">Termos</a> <br>e 
                     <a href="#" class="text-decoration-none text-primary fw-bold">Política de Privacidade</a>.
                 </p>
+            
+            <p class="mt-4">Não tem uma conta? 
+                <a href="#" id="show-register" class="text-decoration-none text-primary fw-bold">CRIAR CONTA</a>
+            </p>
+        </div>
 
-                <p class="mt-4">Não tem uma conta? 
-                    <a href="#" id="show-register" class="text-decoration-none text-primary fw-bold">CRIAR CONTA</a>
-                </p>
-            </div>
-
-            <div id="register-form" class="card-body text-center" style="display: none;">         
-                <h1 class="h3 card-title fw-bold text-primary my-4">Crie seu perfil</h1>
+        <!-- Formulário de Cadastro (Inicialmente Escondido) -->
+        <div id="register-form" class="card-body text-center mx-4" style="display: none;"> 
+            <h1 class="h2 card-title fw-bold text-primary mb-4">Crie seu perfil</h1>
                 <form>
-                    <div class="form-floating mb-3">
+                    <div class="form-floating my-3 ">
                         <input type="text" id="register-name" class="form-control form-control-lg rounded-3" placeholder="Nome" required>
                         <label for="floatingInput">Nome</label>
                     </div>
@@ -69,7 +66,7 @@
                     </div>
 
                     <p id="auth-error-message-login" class="text-danger small text-start mb-3" style="min-height: 1.5;" ></p>
-                    <button id="register-button" type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm">ENTRAR</button>
+                    <button id="register-button" type="submit" class="btn btn-success btn-lg w-100 rounded-pill shadow-sm">CRIAR CONTA</button>
                     </form>
 
                 <div class="d-flex align-items-center my-3">
@@ -86,13 +83,13 @@
                     <a href="#" class="text-decoration-none text-primary fw-bold">Termos</a> <br>e 
                     <a href="#" class="text-decoration-none text-primary fw-bold">Política de Privacidade</a>.
                 </p>
-
-                <p class="mt-4">Já tem uma conta? 
-                    <a href="#" id="show-login" class="text-decoration-none text-primary fw-bold">ENTRAR</a>
-                </p>
-            </div>
-        </main>
-        
-        <script type="module" src="./script/auth.js"></script>
-    </body>
+            
+            <p class="mt-4 ">Já tem uma conta? 
+                <a href="#" id="show-login" class="text-decoration-none text-primary fw-bold">ENTRAR</a>
+            </p>
+        </div>
+    </main>
+    <!-- Seu script para alternar as telas -->
+    <script type="module" src="./script/access.js"></script>
+</body>
 </html>

@@ -34,8 +34,8 @@ const registerButton = document.getElementById('register-button');
 const googleRegisterButton = document.getElementById('google-register-button'); 
 
 // Mensagens de Erro (certifique-se de que estes IDs existam nos seus <p> de erro no HTML)
-const authErrorMessageLogin = document.getElementById('auth-error-message-login');
-const authErrorMessageRegister = document.getElementById('auth-error-message-register');
+//const authErrorMessageLogin = document.getElementById('auth-error-message-login');
+//const authErrorMessageRegister = document.getElementById('auth-error-message-register');
 
 // só falta o cadastro, alterar para a tela correta
 loginButton.addEventListener("click", function(event){

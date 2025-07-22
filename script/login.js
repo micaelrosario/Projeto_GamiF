@@ -15,7 +15,7 @@ const firebaseConfig = {
 };
 
 // Importações para o Firebase Realtime Database
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js"; 
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js"; 
 
 // Inicializa o Firebase com as configurações
 const app = initializeApp(firebaseConfig);
@@ -24,29 +24,31 @@ const auth = getAuth(app);
 // --- REFERÊNCIAS AOS ELEMENTOS HTML ---
 // É crucial que os IDs no seu HTML (acesso.html) correspondam EXATAMENTE a estes aqui.
 
-// Inputs do Formulário de Cadastro
-const registerNameInput = document.getElementById('register-name');
-const registerEmailInput = document.getElementById('register-email');
-const registerPasswordInput = document.getElementById('register-password');
+// Containers dos Formulários
+const loginForm = document.getElementById('login-form');
+const registerForm = document.getElementById('register-form');
 
-// Botão do Formulário de Cadastro
-const registerButton = document.getElementById('register-button'); 
-const googleRegisterButton = document.getElementById('google-register-button'); 
+// Botões do Formulário de Login
+const loginButton = document.getElementById('login-button');
+const googleLoginButton = document.getElementById('google-login-button');
 
 // Mensagens de Erro (certifique-se de que estes IDs existam nos seus <p> de erro no HTML)
 const authErrorMessageLogin = document.getElementById('auth-error-message-login');
 const authErrorMessageRegister = document.getElementById('auth-error-message-register');
 
-// só falta o cadastro, alterar para a tela correta
+// Botão fazendo login com sucesso!
 loginButton.addEventListener("click", function(event){
     event.preventDefault()
     // Inputs do Formulário de Login
     const loginEmailInput = document.getElementById('login-email').value;
     const loginPasswordInput = document.getElementById('login-password').value;
-    createUserWithEmailAndPassword(auth, registerEmailInput, registerPasswordInput)
+    // Mensagens de Erro (certifique-se de que estes IDs existam nos seus <p> de erro no HTML)
+    const authErrorMessageLogin = document.getElementById('auth-error-message-login');
+    const authErrorMessageRegister = document.getElementById('auth-error-message-register');
+    signInWithEmailAndPassword(auth, loginEmailInput, loginPasswordInput)
     .then((userCredential) => {
         const user = userCredential.user;
-        alert("Creating Account...")
+        alert("Access Account...")
         window.location.href = "index.html"
         //
     })
@@ -55,4 +57,4 @@ loginButton.addEventListener("click", function(event){
         const errorMessage = error.message;
         alert(errorMessage);
     })
-})
+}) 

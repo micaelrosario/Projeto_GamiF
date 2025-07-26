@@ -54,9 +54,12 @@ const googleLoginButton = document.getElementById('google-login-button');
 const registerButton = document.getElementById('register-button'); // Descomentado
 const googleRegisterButton = document.getElementById('google-register-button');
 
-const registerName = document.getElementById('register-name').value;
-const registerEmail = document.getElementById('register-email').value;
-const registerPassword = document.getElementById('register-password').value;
+const loginEmailInput = document.getElementById('login-email').value;
+const loginPasswordInput = document.getElementById('login-password').value;
+
+const registerNameInput = document.getElementById('register-name').value;
+const registerEmailInput = document.getElementById('register-email').value;
+const registerPasswordInput = document.getElementById('register-password').value;
 
 // Links para Alternar Formulários
 const showRegisterLink = document.getElementById('show-register'); // Descomentado
@@ -64,6 +67,17 @@ const showLoginLink = document.getElementById('show-login'); // Descomentado
 
 const authErrorMessageLogin = document.getElementById('auth-error-message-login');
 const authErrorMessageRegister = document.getElementById('auth-error-message-register');
+
+function clearFormInputs(formType) {
+    if (formType === 'login') {
+        if (loginEmailInput) loginEmailInput.value = '';
+        if (loginPasswordInput) loginPasswordInput.value = '';
+    } else if (formType === 'register') {
+        if (registerNameInput) registerNameInput.value = '';
+        if (registerEmailInput) registerEmailInput.value = '';
+        if (registerPasswordInput) registerPasswordInput.value = '';
+    }
+}
 
 function displayError(message, formType = 'login') {
     if (formType === 'login' && authErrorMessageLogin) {
@@ -75,16 +89,173 @@ function displayError(message, formType = 'login') {
     }
 }
 
-//Função para Alternar entre o Form Login e Cadastro
+async function handleGoogleAuth() { 
+    const provider = new GoogleAuthProvider();
+    displayError('', 'login'); // Limpa erros anteriores (exibe no formulário de login)
+
+    try {
+        const userCredential = await signInWithPopup(auth, provider); 
+        const user = userCredential.user;
+
+        await set(ref(db, 'users/' + user.uid), {
+            username: user.displayName || 'Usuário Google', // Pega o nome do Google, ou um padrão
+            email: user.email || '', // Pega o e-mail do Google
+            createdAt: new Date().toISOString(),
+            level: 1, 
+            score: 0,
+            quizzesCompleted: {} 
+        });
+
+        console.log("Autenticação Google bem-sucedida!");
+        window.location.href = 'index.html';
+    } catch (error) {
+        let errorMessage = "Erro ao autenticar com Google.";
+        if (error.code === 'auth/popup-closed-by-user') {
+            errorMessage = "Autenticação cancelada pelo usuário.";
+        } else if (error.code === 'auth/cancelled-popup-request') {
+            errorMessage = "Requisição de pop-up cancelada.";
+        } else if (error.code === 'auth/operation-not-allowed') {
+            errorMessage = "Autenticação Google não habilitada no Firebase.";
+        }
+        displayError(errorMessage, 'login'); 
+        console.error("Erro de autenticação Google:", error);
+    }
+}
+
+async function handleLogin() {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    displayError('', 'login'); 
+
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password); 
+        const user = userCredential.user; 
+
+        console.log("Login bem-sucedido!", user); 
+        clearFormInputs('login'); 
+        window.location.href = 'index.html'; 
+        
+    } catch (error) {
+
+        let errorMessage = "Erro ao fazer login. Tente novamente.";
+
+        // CORREÇÃO AQUI: Adicionando a condição específica para 'auth/user-not-found'
+        if (error.code === 'auth/user-not-found') {
+            errorMessage = "Esta conta não existe. Tente criá-la.";
+        } else if (error.code === 'auth/wrong-password') { // <--- Esta condição pode não ser atingida se 'invalid-credential' for sempre retornado
+            errorMessage = "Senha incorreta."; 
+        } else if (error.code === 'auth/invalid-credential') { // <--- Este é o seu "coringa" para credenciais inválidas
+            errorMessage = "E-mail ou senha inválidos."; // Ou "Credenciais inválidas."
+        } else {
+            errorMessage = `Erro do Firebase: ${error.message}`;
+        }
+        displayError(errorMessage, 'login'); 
+        clearFormInputs('login'); 
+    }
+}
+
+async function handleRegister() {
+    // Inputs do Formulário de Cadastro
+    const name = document.getElementById('register-name').value.trim();
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+
+    if (!name) { 
+        displayError("Por favor, digite seu nome.", 'register');
+        clearFormInputs('register'); 
+        return; 
+    }
+
+    if (password.length < 6) {
+        displayError("A senha deve ter no mínimo 6 caracteres.", 'register');
+        clearFormInputs('register');
+        return; 
+    }
+
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password); 
+        const user = userCredential.user; // O objeto user contém o user.uid
+
+        await updateProfile(user, {
+            displayName: name
+        });
+
+        
+        await set(ref(db, 'users/' + user.uid), {
+            username: name,
+            email: email,
+            createdAt: new Date().toISOString(), 
+            level: 1, 
+            score: 0, 
+            quizzesCompleted: {} 
+        });
+
+        console.log("Cadastro bem-sucedido!", user);
+        clearFormInputs('register');
+        window.location.href = 'index.html'; 
+    } catch (error) {
+        let errorMessage = "Erro ao cadastrar. Tente novamente.";
+        // Agora, essas condições devem ser atingidas se o Firebase retornar esses erros específicos.
+        if (error.code === 'auth/email-already-in-use') {
+            errorMessage = "Este e-mail já está em uso.";
+        } else if (error.code === 'auth/weak-password') {
+            errorMessage = "A senha é muito fraca.";
+        } else if (error.code === 'auth/invalid-email') {
+            errorMessage = "Formato de e-mail inválido.";
+        } else {
+            // Caso seja um erro diferente dos esperados, mostra o erro genérico do Firebase.
+            errorMessage = `Erro do Firebase: ${error.message}`;
+        }
+        displayError(errorMessage, 'register');
+        clearFormInputs('register');
+    }
+}
+
+// --- ADICIONAR LISTENERS DE EVENTOS ---
+if (loginButton) {
+    loginButton.addEventListener('click', async (e) => { // A função interna precisa ser 'async'
+        e.preventDefault(); // Previne o envio padrão do formulário HTML
+        await handleLogin(); 
+    });
+}
+
+if (registerButton) {
+    registerButton.addEventListener('click', async (e) => { // A função interna precisa ser 'async'
+        e.preventDefault(); // Previne o envio padrão do formulário HTML
+        await handleRegister(); 
+    });
+}
+
+if (googleLoginButton) {
+    googleLoginButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await handleGoogleAuth();
+    });
+} else {
+    console.warn("Elemento com ID 'google-login-button' não encontrado no DOM.");
+}
+
+if (googleRegisterButton) {
+    googleRegisterButton.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await handleGoogleAuth();
+    });
+} else {
+    console.warn("Elemento com ID 'google-register-button' não encontrado no DOM.");
+}
+
 function showForm(formToShow) {
     // Garante que os elementos existam antes de tentar manipulá-los
     if (loginForm && registerForm) {
         if (formToShow === 'login') {
             loginForm.style.display = 'block';   // Mostra o formulário de login
             registerForm.style.display = 'none'; // Esconde o formulário de registro
+            clearFormInputs('register');
         } else if (formToShow === 'register') {
             registerForm.style.display = 'block';   // Mostra o formulário de registro
             loginForm.style.display = 'none'; // Esconde o formulário de login
+            clearFormInputs('login');
         }
     } else {
         console.error("Erro: Elementos de formulário (login-form ou register-form) não encontrados no DOM.");
@@ -105,129 +276,7 @@ if (showLoginLink) {
     });
 }
 
-
-//Lida com o processo de login/cadastro via Google.
-
-async function handleGoogleAuth() { 
-    const provider = new GoogleAuthProvider();
-    displayError('', 'login'); // Limpa erros anteriores (exibe no formulário de login)
-
-    try {
-        await signInWithPopup(auth, provider); 
-        console.log("Autenticação Google bem-sucedida!");
-        window.location.href = 'index.html';
-    } catch (error) {
-        let errorMessage = "Erro ao autenticar com Google.";
-        if (error.code === 'auth/popup-closed-by-user') {
-            errorMessage = "Autenticação cancelada pelo usuário.";
-        } else if (error.code === 'auth/cancelled-popup-request') {
-            errorMessage = "Requisição de pop-up cancelada.";
-        } else if (error.code === 'auth/operation-not-allowed') {
-            errorMessage = "Autenticação Google não habilitada no Firebase.";
-        }
-        displayError(errorMessage, 'login'); 
-        console.error("Erro de autenticação Google:", error);
-    }
-}
-
-
-// Botão fazendo login com sucesso!
-if(loginButton){
-    loginButton.addEventListener("click", function(event){
-        event.preventDefault()
-        // Inputs do Formulário de Login
-        const loginEmailInput = document.getElementById('login-email').value;
-        const loginPasswordInput = document.getElementById('login-password').value;
-        
-        signInWithEmailAndPassword(auth, loginEmailInput, loginPasswordInput)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            window.location.href = "index.html"
-        })
-        .catch((error) => {
-            let errorMessage = "Erro ao fazer login. Tente novamente.";
-            if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-                errorMessage = "E-mail ou senha inválidos.";
-            } else if (error.code === 'auth/invalid-email') {
-                errorMessage = "Formato de e-mail inválido.";
-            } else if (error.code === 'auth/too-many-requests') {
-                errorMessage = "Muitas tentativas de login. Tente novamente mais tarde.";
-            }
-            // CORREÇÃO: Usando displayError em vez de alert
-            displayError(errorMessage, 'login'); 
-            console.error("Erro de login:", error);
-        })
-    })  
-}
-
-if (registerButton) {
-    registerButton.addEventListener('click', async (e) => { // A função interna precisa ser 'async'
-        e.preventDefault(); // Previne o envio padrão do formulário HTML
-        await handleRegister(); 
-    });
-}
-
-// Listener para o botão de Login/Cadastro com Google (no formulário de Login)
-if (googleLoginButton) {
-    googleLoginButton.addEventListener('click', async (e) => {
-        e.preventDefault();
-        await handleGoogleAuth();
-    });
-} else {
-    console.warn("Elemento com ID 'google-login-button' não encontrado no DOM.");
-}
-
-// Listener para o botão de Login/Cadastro com Google (no formulário de Cadastro)
-if (googleRegisterButton) {
-    googleRegisterButton.addEventListener('click', async (e) => {
-        e.preventDefault();
-        await handleGoogleAuth();
-    });
-} else {
-    console.warn("Elemento com ID 'google-register-button' não encontrado no DOM.");
-}
-
-async function handleRegister() {
-    // Inputs do Formulário de Cadastro
-    const name = document.getElementById('register-name').value;
-    const email = document.getElementById('register-email').value;
-    const password = document.getElementById('register-password').value;
-
-    if (password.length < 6) {
-        displayError("A senha deve ter no mínimo 6 caracteres.", 'register');
-        return; 
-    }
-
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password); 
-        const user = userCredential.user;
-
-        await updateProfile(user, {
-            displayName: name
-        });
-
-        // Opcional: Salvar informações adicionais do usuário no Realtime Database
-        await set(ref(db, 'users/' + user.uid), {
-            createdAt: new Date().toISOString(),
-            username: name,
-            email: email
-        });
-
-        console.log("Cadastro bem-sucedido!", user);
-        window.location.href = 'index.html'; 
-    } catch (error) {
-        let errorMessage = "Erro ao cadastrar. Tente novamente.";
-        // Agora, essas condições devem ser atingidas se o Firebase retornar esses erros específicos.
-        if (error.code === 'auth/email-already-in-use') {
-            errorMessage = "Este e-mail já está em uso.";
-        } else if (error.code === 'auth/weak-password') {
-            errorMessage = "A senha é muito fraca.";
-        } else if (error.code === 'auth/invalid-email') {
-            errorMessage = "Formato de e-mail inválido.";
-        } else {
-            // Caso seja um erro diferente dos esperados, mostra o erro genérico do Firebase.
-            errorMessage = `Erro do Firebase: ${error.message}`;
-        }
-        displayError(errorMessage, 'register');
-    }
-}
+// --- COMPORTAMENTO INICIAL AO CARREGAR A PÁGINA ---
+document.addEventListener('DOMContentLoaded', () => {
+    showForm('login');
+});

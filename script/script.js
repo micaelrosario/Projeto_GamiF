@@ -63,8 +63,7 @@ function showNextQuestionOrResults() {
 
 /**
  * Inicia um quiz para um dado ID de módulo.
- * Esta função é o ponto de entrada para começar um quiz específico.
- * @param {string} moduleId - O ID do módulo (ex: 'logica-programacao') para o qual o quiz deve ser iniciado.
+ * @param {string} moduleId 
  */
 function startQuiz(moduleId) {
     // Encontra o objeto do módulo correspondente ao ID fornecido
@@ -93,10 +92,7 @@ function startQuiz(moduleId) {
     UI.renderQuestion(firstQuestion, handleAnswer); // Exibe a primeira pergunta na UI e configura seu handler de resposta
 }
 
-/**
- * Inicializa a aplicação GamiF.
- * Esta função é o ponto de partida principal de todo o aplicativo.
- */
+//Inicializa a aplicação GamiF.
 function init() {
     // Inicializa o gerador de confetes, associando-o ao canvas no HTML
     Confetti.initConfetti(document.getElementById('confetti-canvas'));

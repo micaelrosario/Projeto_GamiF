@@ -107,7 +107,7 @@ async function handleGoogleAuth() {
         });
 
         console.log("Autenticação Google bem-sucedida!");
-        window.location.href = 'index.html';
+        window.location.href = 'home.html';
     } catch (error) {
         let errorMessage = "Erro ao autenticar com Google.";
         if (error.code === 'auth/popup-closed-by-user') {
@@ -134,7 +134,7 @@ async function handleLogin() {
 
         console.log("Login bem-sucedido!", user); 
         clearFormInputs('login'); 
-        window.location.href = 'index.html'; 
+        window.location.href = 'home.html'; 
         
     } catch (error) {
 
@@ -193,7 +193,7 @@ async function handleRegister() {
 
         console.log("Cadastro bem-sucedido!", user);
         clearFormInputs('register');
-        window.location.href = 'index.html'; 
+        window.location.href = 'home.html'; 
     } catch (error) {
         let errorMessage = "Erro ao cadastrar. Tente novamente.";
         // Agora, essas condições devem ser atingidas se o Firebase retornar esses erros específicos.

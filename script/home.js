@@ -6,6 +6,7 @@ import { modules, quizData } from './data.js'; // Importa a lista de módulos e 
 import * as UI from './ui.js';             // Importa todas as exportações do módulo 'ui.js' (que gerencia a interface do usuário)
 import * as State from './state.js';         // Importa todas as exportações do módulo 'state.js' (que gerencia o estado da aplicação, como pontuação e progresso)
 
+
 /**
  * Lida com a seleção de resposta do usuário em uma pergunta do quiz.
  * Esta função é chamada quando o usuário clica em um botão de opção de resposta.

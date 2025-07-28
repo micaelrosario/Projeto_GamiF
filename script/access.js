@@ -9,7 +9,7 @@ import {
     getAuth, 
     signInWithEmailAndPassword, 
     createUserWithEmailAndPassword, 
-    GoogleAuthProvider,     // Para autenticação Google
+    GoogleAuthProvider,     // Para autenticação Google 
     signInWithPopup,        // Para autenticação Google
     onAuthStateChanged,     // Para observar o estado de autenticação do usuário
     updateProfile           // Para atualizar o perfil do usuário (ex: nome)
@@ -145,7 +145,7 @@ async function handleLogin() {
             errorMessage = "Esta conta não existe. Tente criá-la.";
         } else if (error.code === 'auth/wrong-password') { // <--- Esta condição pode não ser atingida se 'invalid-credential' for sempre retornado
             errorMessage = "Senha incorreta."; 
-        } else if (error.code === 'auth/invalid-credential') { // <--- Este é o seu "coringa" para credenciais inválidas
+        } else if (error.code === 'auth/invalid-credential' || error.code === 'auth/invalid-email') { // <--- Este é o seu "coringa" para credenciais inválidas
             errorMessage = "E-mail ou senha inválidos."; // Ou "Credenciais inválidas."
         } else {
             errorMessage = `Erro do Firebase: ${error.message}`;

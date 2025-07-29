@@ -9,8 +9,8 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 20px 0; 
-    background-color: #f0f2f5; 
-    color: #333;
+    background-color: var(--bs-body-bg); 
+    color: var(--bs-body-color); 
     display: flex;
     justify-content: center;
     align-items: flex-start; 
@@ -318,6 +318,14 @@ header p {
 
 .nav-button:hover {
     background-color: #5a6268; 
+}
+
+.form-floating-password-link {
+    position: absolute;
+    right: 1.25rem; /* Este valor é crucial para o alinhamento visual */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2; /* Para garantir que o link seja clicável sobre o label */
 }
 
 #score-area {

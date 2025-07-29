@@ -9,7 +9,7 @@ import {
     getAuth, 
     signInWithEmailAndPassword, 
     createUserWithEmailAndPassword, 
-    GoogleAuthProvider,     // Para autenticação Google
+    GoogleAuthProvider,     // Para autenticação Google 
     signInWithPopup,        // Para autenticação Google
     onAuthStateChanged,     // Para observar o estado de autenticação do usuário
     sendPasswordResetEmail,

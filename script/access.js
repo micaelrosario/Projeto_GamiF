@@ -102,11 +102,15 @@ function displayError(message, formType = 'login') {
     if (formType === 'login' && authErrorMessageLogin) {
         authErrorMessageLogin.textContent = message;
         if (authErrorMessageRegister) authErrorMessageRegister.textContent = ''; 
+        if (authErrorMessageForgotPassword) authErrorMessageForgotPassword.textContent = ''; 
     } else if (formType === 'register' && authErrorMessageRegister) {
         authErrorMessageRegister.textContent = message;
         if (authErrorMessageLogin) authErrorMessageLogin.textContent = ''; 
+        if (authErrorMessageForgotPassword) authErrorMessageForgotPassword.textContent = ''; 
     } else if (formType === 'forgot-password' && authErrorMessageForgotPassword) { 
         authErrorMessageForgotPassword.textContent = message;
+        if (authErrorMessageLogin) authErrorMessageLogin.textContent = ''; 
+        if (authErrorMessageRegister) authErrorMessageRegister.textContent = ''; 
     }
 }
 
@@ -255,6 +259,7 @@ async function handleForgotPassword() { // Esta é a função que você procura
 
     if (!email) { // Validação local: verifica se o e-mail foi digitado
         displayError("Por favor, digite seu e-mail.", 'forgot-password');
+        clearFormInputs('login'); 
         return;
     }
 
@@ -263,7 +268,7 @@ async function handleForgotPassword() { // Esta é a função que você procura
         await sendPasswordResetEmail(auth, email); 
         // Mensagem de sucesso (intencionalmente vaga por segurança do Firebase)
         alert("Se um e-mail válido for encontrado, um link de redefinição foi enviado para " + email + ". Verifique sua caixa de entrada e spam.");
-        clearFormInputs('forgot-password'); // Limpa o campo após o envio
+        clearFormInputs('login'); // Limpa o campo após o envio
     } catch (error) {
         let errorMessage = "Erro ao enviar o link de redefinição. Tente novamente.";
         // Tratamento de erros específicos do Firebase
@@ -277,6 +282,7 @@ async function handleForgotPassword() { // Esta é a função que você procura
         }
         displayError(errorMessage, 'forgot-password');
         console.error("Erro ao redefinir senha:", error);
+        clearFormInputs('login');
     }
 }
 

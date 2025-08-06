@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +20,14 @@
     </script>
 </head>
 <body>
+    <div class="position-fixed top-0 end-0 p-3 z-3">
+        <select id="theme-select" class="form-select form-select-sm">
+            <option value="light">Claro</option>
+            <option value="dark">Escuro</option>
+            <option value="system">Auto</option>
+        </select>
+    </div>
+
     <div class="container my-5" id="home-container" display="none">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 col-lg-8">

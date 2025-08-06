@@ -105,5 +105,55 @@ function init() {
     UI.showModulesView(startQuiz);
 }
 
+function applyTheme(theme) {
+    const htmlElement = document.documentElement; 
+    if (htmlElement) {
+        let actualTheme = theme;
+        if (theme === 'system') {
+            // Verifica a preferência do sistema operacional
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            actualTheme = prefersDark ? 'dark' : 'light';
+        }
+        
+        // Aplica o atributo data-bs-theme ao elemento <html>
+        htmlElement.setAttribute('data-bs-theme', actualTheme);
+        // Salva a preferência do usuário no localStorage para persistência
+        localStorage.setItem('themePreference', theme); 
+
+        // Atualiza o valor do seletor de tema na UI
+        const themeSelect = document.getElementById('theme-select');
+        if (themeSelect) {
+            themeSelect.value = theme;
+        }
+        console.log(`Tema aplicado: ${actualTheme} (preferência: ${theme})`);
+    }
+}
+
+// --- Listener para o seletor de tema ---
+document.addEventListener('DOMContentLoaded', () => {
+    const themeSelect = document.getElementById('theme-select');
+    if (themeSelect) {
+        themeSelect.addEventListener('change', () => {
+            const selectedTheme = themeSelect.value;
+            applyTheme(selectedTheme);
+        });
+        console.log("tema aplicado!")
+    } else {
+        console.warn("Elemento 'theme-select' não encontrado no DOM. O seletor de tema não funcionará.");
+    }
+
+    // --- Carrega o tema preferido do localStorage ao carregar a página ---
+    const savedTheme = localStorage.getItem('themePreference');
+    if (savedTheme) {
+        // Se houver um tema salvo, aplica-o
+        applyTheme(savedTheme);
+    } else {
+        // Caso contrário, aplica o tema do sistema por padrão
+        applyTheme('system');
+    }
+});
+
+
 // Garante que a função 'init' seja chamada somente depois que todo o conteúdo HTML da página for carregado e parseado.
 document.addEventListener('DOMContentLoaded', init);
+

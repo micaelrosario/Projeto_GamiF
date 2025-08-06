@@ -77,6 +77,13 @@ const loadingMessage = loadingOverlay ? loadingOverlay.querySelector('.loading-m
 
 const themeSelect = document.getElementById('theme-select');
 
+const emailVerificationMessage = document.getElementById('email-verification-message');
+const resendVerificationEmailButton = document.getElementById('resend-verification-email-button');
+
+// Variável para controlar o tempo de início do carregamento
+let loadingStartTime = 0;
+const MIN_LOADING_DURATION = 5000; // 5 segundos em milissegundos
+
 function clearFormInputs(formType) {
     if (formType === 'login') {
         if (loginEmailInput) loginEmailInput.value = '';
@@ -88,15 +95,55 @@ function clearFormInputs(formType) {
     }
 }
 
-function toggleLoadingOverlay(show, message = "Acessando sistema...") {
-    if (loadingOverlay) {
-        loadingOverlay.style.display = show ? 'flex' : 'none'; 
-        if (loadingMessage) {
-            loadingMessage.textContent = message;
+function toggleLoadingOverlay(show, message = "LOADING...") { 
+    return new Promise(resolve => { // Retorna uma Promise
+        console.log(`toggleLoadingOverlay: ${show ? 'Mostrando' : 'Escondendo'} com mensagem: "${message}"`);
+        if (loadingOverlay) {
+            if (show) {
+                loadingOverlay.classList.remove('hidden'); 
+                loadingOverlay.style.display = 'flex'; // Garante que esteja visível
+                loadingStartTime = Date.now(); // Registra o tempo de início do carregamento
+                if (loadingMessage) {
+                    loadingMessage.textContent = message;
+                }
+                resolve(); // Resolve imediatamente ao mostrar
+            } else {
+                const elapsedTime = Date.now() - loadingStartTime;
+                const remainingTime = MIN_LOADING_DURATION - elapsedTime;
+                const delay = Math.max(0, remainingTime); // Garante que o delay não seja negativo
+
+                // A lógica de 'immediate' foi removida. O overlay sempre aguardará o 'delay'.
+                loadingOverlay.classList.add('hidden'); 
+                if (loadingMessage) {
+                    loadingMessage.textContent = message; // Atualiza mensagem antes de esconder
+                }
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                    resolve(); // Resolve após o atraso
+                }, delay); 
+            }
+        } else {
+            console.warn("Elemento 'loading-overlay' não encontrado.");
+            resolve(); // Resolve mesmo se o elemento não for encontrado
         }
-    }
+    });
 }
 
+function displayEmailVerificationMessage(message, isError = false) {
+    if (emailVerificationMessage) {
+        emailVerificationMessage.textContent = message;
+        if (isError) {
+            emailVerificationMessage.classList.remove('text-info');
+            emailVerificationMessage.classList.add('text-danger');
+        } else {
+            emailVerificationMessage.classList.remove('text-danger');
+            emailVerificationMessage.classList.add('text-info');
+        }
+    }
+    if (resendVerificationEmailButton) {
+        resendVerificationEmailButton.style.display = isError ? 'block' : 'none';
+    }
+}
 
 function displayError(message, formType = 'login') {
     if (formType === 'login' && authErrorMessageLogin) {
@@ -118,6 +165,7 @@ function displayError(message, formType = 'login') {
 async function handleGoogleAuth() { 
     const provider = new GoogleAuthProvider();
     displayError('', 'login'); // Limpa erros anteriores (exibe no formulário de login)
+    await toggleLoadingOverlay(true, "Autenticando com Google...");
 
     try {
         const userCredential = await signInWithPopup(auth, provider); 
@@ -133,8 +181,10 @@ async function handleGoogleAuth() {
         });
 
         console.log("Autenticação Google bem-sucedida!");
+        await toggleLoadingOverlay(false, "Autenticando com Google...");
         window.location.href = 'home.html';
     } catch (error) {
+        await toggleLoadingOverlay(false);
         let errorMessage = "Erro ao autenticar com Google.";
         if (error.code === 'auth/popup-closed-by-user') {
             errorMessage = "Autenticação cancelada pelo usuário.";
@@ -153,24 +203,41 @@ async function handleLogin() {
     const password = document.getElementById('login-password').value.trim();
 
     displayError('', 'login'); 
+    await toggleLoadingOverlay(true, "Carregando...");
 
     if (!email || !password) {
-        toggleLoadingOverlay(false);
+        await toggleLoadingOverlay(false);
         displayError("Por favor, preencha todos os campos.", 'login');
         // Não limpa os campos aqui para que o usuário veja o que falta
         return; 
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        await toggleLoadingOverlay(false);
+        displayError("Formato de e-mail inválido.", 'login');
+        return;
     }
 
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password); 
         const user = userCredential.user; 
 
+        if (!user.emailVerified) {
+            await toggleLoadingOverlay(false);
+            await signOut(auth); 
+            displayEmailVerificationMessage("Seu e-mail não foi verificado. Por favor, verifique sua caixa de entrada (e spam) ou clique em 'Reenviar E-mail de Verificação'.", true);
+            console.warn("Login bloqueado: E-mail não verificado.");
+            return; 
+        }
+
         console.log("Login bem-sucedido!", user); 
         clearFormInputs('login'); 
+        await toggleLoadingOverlay(false, "Carregando..."); 
         window.location.href = 'home.html'; 
         
     } catch (error) {
-
+        await toggleLoadingOverlay(false);
         let errorMessage = "Erro ao fazer login. Tente novamente.";
 
         // CORREÇÃO AQUI: Adicionando a condição específica para 'auth/user-not-found'
@@ -194,19 +261,24 @@ async function handleRegister() {
     const email = document.getElementById('register-email').value.trim();
     const password = document.getElementById('register-password').value.trim();
 
-    if (!name) { 
-        displayError("Por favor, digite seu nome.", 'register');
-        clearFormInputs('register'); 
-        return; 
+    displayError('', 'register'); 
+    await toggleLoadingOverlay(true, "Criando sua conta..."); 
+
+    if (!name || !email || !password) { 
+        await toggleLoadingOverlay(false); 
+        displayError("Por favor, preencha todos os campos.", 'register');
+        return;
     }
 
-    if (!email) { 
-        displayError("Por favor, digite seu email.", 'register');
-        clearFormInputs('register'); 
-        return; 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        await toggleLoadingOverlay(false); 
+        displayError("Formato de e-mail inválido.", 'register');
+        return;
     }
 
     if (password.length < 6) {
+        await toggleLoadingOverlay(false); 
         displayError("A senha deve ter no mínimo 6 caracteres.", 'register');
         clearFormInputs('register');
         return; 
@@ -232,8 +304,12 @@ async function handleRegister() {
 
         console.log("Cadastro bem-sucedido!", user);
         clearFormInputs('register');
+        await toggleLoadingOverlay(false); 
         window.location.href = 'home.html'; 
+        displayEmailVerificationMessage("Sua conta foi criada! Um e-mail de verificação foi enviado para " + email + ". Por favor, verifique sua caixa de entrada (e spam).");
+
     } catch (error) {
+        await toggleLoadingOverlay(false);
         let errorMessage = "Erro ao cadastrar. Tente novamente.";
         // Agora, essas condições devem ser atingidas se o Firebase retornar esses erros específicos.
         if (error.code === 'auth/email-already-in-use') {
@@ -255,21 +331,31 @@ async function handleForgotPassword() { // Esta é a função que você procura
     const email = document.getElementById('login-email').value.trim();
 
     displayError('', 'forgot-password'); // Limpa erros anteriores
-    //toggleLoadingOverlay(true, "Enviando link de redefinição..."); // Mostra o loading
+    await toggleLoadingOverlay(true, "Enviando link de redefinição...");
 
     if (!email) { // Validação local: verifica se o e-mail foi digitado
+        await toggleLoadingOverlay(false);
         displayError("Por favor, digite seu e-mail.", 'forgot-password');
         clearFormInputs('login'); 
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        await toggleLoadingOverlay(false); // AGUARDA O OVERLAY DESAPARECER
+        displayError("Formato de e-mail inválido.", 'forgot-password');
         return;
     }
 
     try {
         // *** Esta é a linha que se conecta ao Firebase para enviar o e-mail de redefinição ***
         await sendPasswordResetEmail(auth, email); 
+        await toggleLoadingOverlay(false);
         // Mensagem de sucesso (intencionalmente vaga por segurança do Firebase)
         alert("Se um e-mail válido for encontrado, um link de redefinição foi enviado para " + email + ". Verifique sua caixa de entrada e spam.");
         clearFormInputs('login'); // Limpa o campo após o envio
     } catch (error) {
+        await toggleLoadingOverlay(false);
         let errorMessage = "Erro ao enviar o link de redefinição. Tente novamente.";
         // Tratamento de erros específicos do Firebase
         if (error.code === 'auth/invalid-email') {
@@ -283,6 +369,26 @@ async function handleForgotPassword() { // Esta é a função que você procura
         displayError(errorMessage, 'forgot-password');
         console.error("Erro ao redefinir senha:", error);
         clearFormInputs('login');
+    }
+}
+
+async function handleResendVerificationEmail() {
+    const user = auth.currentUser;
+    if (user) {
+        await toggleLoadingOverlay(true, "Reenviando e-mail de verificação..."); // AGUARDA O OVERLAY APARECER
+        displayEmailVerificationMessage(''); 
+        try {
+            await sendEmailVerification(user);
+            await toggleLoadingOverlay(false); // AGUARDA O OVERLAY DESAPARECER
+            displayEmailVerificationMessage("E-mail de verificação reenviado para " + user.email + ". Por favor, verifique sua caixa de entrada (e spam).");
+            console.log("E-mail de verificação reenviado.");
+        } catch (error) {
+            await toggleLoadingOverlay(false); // AGUARDA O OVERLAY DESAPARECER
+            displayEmailVerificationMessage("Erro ao reenviar e-mail de verificação: " + error.message, true);
+            console.error("Erro ao reenviar e-mail de verificação:", error);
+        }
+    } else {
+        displayEmailVerificationMessage("Nenhum usuário logado para reenviar o e-mail de verificação.", true);
     }
 }
 
@@ -330,6 +436,14 @@ if (googleRegisterButton) {
     console.warn("Elemento com ID 'google-register-button' não encontrado no DOM.");
 }
 
+if (resendVerificationEmailButton) { 
+    resendVerificationEmailButton.addEventListener('click', async () => {
+        await handleResendVerificationEmail();
+    });
+} else {
+    console.warn("Elemento com ID 'resend-verification-email-button' não encontrado no DOM.");
+}
+
 function showContent(formToShow) {
     // Garante que os elementos existam antes de tentar manipulá-los
     if (loginForm && registerForm) {
@@ -360,6 +474,32 @@ if (showLoginLink) {
         showContent('login'); 
     });
 }
+
+// --- COMPORTAMENTO INICIAL AO CARREGAR A PÁGINA ---
+// Mostra o loading ao iniciar e aguarda o tempo mínimo antes de esconder
+document.addEventListener('DOMContentLoaded', async () => {
+    await toggleLoadingOverlay(false, "Carregando..."); 
+    // Após o carregamento inicial, verifica o estado de autenticação
+    onAuthStateChanged(auth, async (user) => { // onAuthStateChanged também precisa ser async
+        console.log("onAuthStateChanged disparado. Usuário:", user ? user.uid : "Nenhum");
+        if (user) {
+            console.log("Usuário já logado:", user.uid);
+            if (!user.emailVerified) {
+                await signOut(auth); 
+                showContent('login');
+                displayEmailVerificationMessage("Seu e-mail não foi verificado. Por favor, verifique sua caixa de entrada (e spam) ou clique em 'Reenviar E-mail de Verificação'.", true);
+            } else {
+                showContent('home'); 
+            }
+        } else {
+            console.log("Nenhum usuário logado.");
+            showContent('login'); 
+        }
+        // AGORA O OVERLAY VAI DEMORAR 5 SEGUNDOS ANTES DE ESCONDER
+        await toggleLoadingOverlay(false); 
+        console.log("Loading overlay escondido após onAuthStateChanged.");
+    });
+});
 
 
 function applyTheme(theme) {

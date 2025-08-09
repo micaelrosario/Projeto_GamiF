@@ -1,4 +1,3 @@
-/* Reset básico para box-sizing */
 *,
 *::before,
 *::after {
@@ -693,11 +692,11 @@ html[data-bs-theme="dark"] .trail-path {
 /* Nó da trilha (cada quiz/lição) */
 .trail-node {
     position: absolute;
-    width: 80px; /* Tamanho do círculo do nó */
+    width: 80px; 
     height: 80px;
-    background-color: #ffffff; /* Fundo do nó (claro) */
-    border: 4px solid #dddddd; /* Borda do nó */
-    border-radius: 50%; /* Torna-o circular */
+    background-color: #ffffff; 
+    border: 4px solid #dddddd; 
+    border-radius: 50%; 
     display: flex;
     flex-direction: column;
     justify-content: center;

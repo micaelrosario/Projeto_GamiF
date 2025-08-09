@@ -28,52 +28,90 @@
         </select>
     </div>
 
-    <div class="container my-5" id="home-container" display="none">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-10 col-lg-8">
-                <header display="none">
-                    <img src="./assets/icons/new_GamiF.png" alt="GamiF Logo" id="app-logo"> 
-                    
-                    <img src="" alt="Module Image" id="module-header-image" style="display: none; max-height: 80px; margin-bottom: 10px; border-radius: 8px;">
-                    <h1 id="page-title">Carregando...</h1>
-                    <p id="page-subtitle">Carregando...</p>
-                </header>
-                
-                <main id="modules-container">
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
+    <!-- Container Principal da Aplicação -->
+    <div class="container my-5" id="app-container" style="display: none;">
+        <!-- Cabeçalho da Aplicação -->
+        <header class="text-center mb-4" id="brand">
+            <img id="app-logo" src="./assets/logo-gamif.png" alt="Logo GamiF" class="img-fluid mb-3">
+            <h1 class="display-5 fw-bold">Bem-vindo ao GamiF!</h1>
+            <p class="lead">Aprenda de forma divertida e gamificada.</p>
+        </header>
 
-                    </div>
-                </main>
+        <!-- Seletor de Unidades (Topo da Trilha) 
+        <div id="unit-selector-bar" class="unit-selector-bar mb-4">
+             Itens de unidade serão gerados dinamicamente via JavaScript 
+            <div class="unit-selector-item active" data-unit-id="unit1">Unidade 1</div>
+            <div class="unit-selector-item" data-unit-id="unit2">Unidade 2</div>
+            <div class="unit-selector-item" data-unit-id="unit3">Unidade 3</div>
+            <div class="unit-selector-item" data-unit-id="unit4">Unidade 4</div>
+            <div class="unit-selector-item" data-unit-id="unit5">Unidade 5</div>
+        </div>-->
 
-                <main id="quiz-container" style="display: none;">
-                    <button id="back-to-modules-button" class="nav-button">Voltar aos Módulos</button>
-                    
-                    <div id="progress-container" style="display: none;">
-                        <div id="progress-bar-wrapper">
-                            <div id="progress-bar"></div>
-                        </div>
-                        <span id="progress-text"></span>
-                    </div>
+        <!-- Container da Trilha Principal -->
+        <div id="trail-main-content" class="trail-container">
 
-                    <div id="question-area">
-                        <h2 id="question-text">Carregando pergunta...</h2>
-                        <div id="options-container">
-                            </div>
-                    </div>
-                    <div id="feedback-area">
-                        <p id="feedback-text"></p>
-                    </div>
-                    <button id="next-button">Próxima Pergunta</button>
-                    <div id="score-area">
-                        <p>Pontuação: <span id="score">0</span></p>
-                    </div>
-                </main>
-
-                <footer>
-                    <p>Criado para aprendizado de programação e ADS</p>
-                </footer>
+            <div class="trail-node align-middle" style="top: 50px; left: 45%;" data-quiz-id="quiz1">
+                <span class="node-icon"><i class="fas fa-book-open"></i></span>
+                <span class="node-label">Lição 1</span>
+            </div>
+            <div class="trail-node completed" style="top: 150px; left: 55%;" data-quiz-id="quiz2">
+                <span class="node-icon"><i class="fas fa-check-circle"></i></span>
+                <span class="node-label">Lição 2</span>
+            </div>
+            <div class="trail-node" style="top: 250px; left: 40%;" data-quiz-id="quiz3">
+                <span class="node-icon"><i class="fas fa-question-circle"></i></span>
+                <span class="node-label">Quiz 1</span>
+            </div>
+            <div class="trail-node locked" style="top: 350px; left: 60%;" data-quiz-id="quiz4">
+                <span class="node-icon"><i class="fas fa-lock"></i></span>
+                <span class="node-label">Lição 3</span>
+            </div>
+            <div class="trail-node" style="top: 450px; left: 45%;" data-quiz-id="quiz5">
+                <span class="node-icon"><i class="fas fa-star"></i></span>
+                <span class="node-label">Desafio</span>
             </div>
         </div>
+
+        <!-- NOVO: Container para informações do Quiz (inicialmente escondido) -->
+        <div id="quiz-info-popup" class="quiz-info-popup">
+            <h4 id="quiz-info-title">Título do Quiz</h4>
+            <p id="quiz-info-description">Esta é a descrição detalhada do quiz. Aqui você pode aprender sobre o que o quiz aborda e o que esperar.</p>
+            <button id="start-quiz-button" class="btn btn-success">INICIAR QUIZ</button>
+        </div>
+
+        <main id="quiz-container" class="card p-5 container">
+            <div class="row">
+                <img class="col-1 " src="https://d35aaqx5ub95lt.cloudfront.net/images/df223d5b9feb8017b323ed21103eb5ac.svg" alt="">
+                <div class="col" id="progress-container">
+                    <div id="progress-bar-wrapper">
+                        <div id="progress-bar"></div>
+                    </div>
+                    <span id="progress-text">0/0</span>
+                </div>
+                <img class="col-1" src="https://d35aaqx5ub95lt.cloudfront.net/images/hearts/7631e3ee734dd4fe7792626b59457fa4.svg" alt="">
+            </div>
+
+            <!-- Área da Pergunta -->
+            <div id="question-area" class="mb-4">
+                <h2 id="question-text" class="text-center">Carregando pergunta...</h2>
+            </div>
+
+            <!-- Opções de Resposta -->
+            <div id="options-container" class="d-grid gap-3 mb-4">
+                <!-- Botões de opção serão gerados aqui -->
+            </div>
+
+            <!-- Área de Feedback -->
+            <div id="feedback-area" class="mb-4">
+                <p id="feedback-text" class="mb-0"></p>
+            </div>
+
+            <!-- Botão Próximo/Finalizar -->
+            <button id="next-button" class="btn btn-success w-100 mt-3">Próximo</button>
+        </main>
+
+        <!-- Botão para voltar aos módulos (se necessário) -->
+        <button id="back-to-modules-button" class="nav-button btn btn-secondary mt-4">Voltar à Trilha</button>
     </div>
 
     <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>

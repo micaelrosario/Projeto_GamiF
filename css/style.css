@@ -9,7 +9,6 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     margin: 0;
-    padding: 20px 0; /* Padding vertical para o conteúdo */
     display: flex; /* Para centralizar o conteúdo principal */
     justify-content: center; /* Centraliza horizontalmente */
     align-items: flex-start; /* Alinha ao topo verticalmente (para rolagem) */

@@ -19,7 +19,7 @@
         }
     </script>
 </head>
-<body class="d-flex align-items-center justify-content-center p-4 min-vh-100">
+<body class="d-flex align-items-center justify-content-center p-3 min-vh-100">
     <!-- NOVO: Seletor de Tema no canto superior direito -->
     <div class="position-fixed top-0 end-0 p-3 z-3">
         <select id="theme-select" class="form-select form-select-sm">
@@ -30,9 +30,9 @@
     </div>
     
     <!-- CONTAINER DE LOGIN & REGISTER-->
-    <main class="card py-4 shadow-lg rounded-4 d-flex"> 
+    <main class="card py-3 shadow-lg rounded-4 d-flex"> 
         <!-- Formulário de Login -->
-        <div id="login-form" class="card-body text-center mx-3"> 
+        <div id="login-form" class="card-body text-center mx-2"> 
             <h1 class="h2 card-title fw-bold text-primary mb-4">Entrar</h1>
             <p class="mb-4 text-body-secondary" required>Use suas credenciais para acessar o painel de aprendizado!</p>
             <form>
@@ -44,7 +44,7 @@
                     <input type="password" id="login-password" class="form-control form-control-lg rounded-3" placeholder="Senha" required>
                     <label for="login-password">Senha</label>
                     <!-- Link "ESQUECEU?" - NOVO: Classes Bootstrap para estilo -->
-                    <a href="#" id="forgot-password" class="position-absolute px-3 end-0 top-50 translate-middle-y me-2 small text-muted text-decoration-none">ESQUECEU?</a>
+                    <a href="#" id="forgot-password" class="position-absolute px-2 end-0 top-50 translate-middle-y me-2 small text-muted text-decoration-none">ESQUECEU?</a>
                 </div>
                 <p id="auth-error-message-login" class="text-danger small text-start mb-3" style="min-height: 1.5;" ></p>
                 <p id="auth-error-message-forgot-password" class="text-danger small text-start mb-3" style="min-height: 1.5;" ></p>

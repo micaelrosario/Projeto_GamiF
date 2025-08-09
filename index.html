@@ -40,11 +40,11 @@
                     <input type="email" id="login-email" class="form-control form-control-lg rounded-3" placeholder="E-mail ou nome de usuário" required>
                     <label for="login-email">E-mail</label>
                 </div>
-                <div class="form-floating mb-4 position-relative"> <!-- Adicionado position-relative para posicionar o link -->
+                <div class="position-relative form-floating mb-4"> <!-- Adicionado position-relative para posicionar o link -->
                     <input type="password" id="login-password" class="form-control form-control-lg rounded-3" placeholder="Senha" required>
                     <label for="login-password">Senha</label>
                     <!-- Link "ESQUECEU?" - NOVO: Classes Bootstrap para estilo -->
-                    <a href="#" id="forgot-password" class="form-floating-password-link small text-muted fw-normal text-decoration-none">ESQUECEU?</a>
+                    <a href="#" id="forgot-password" class="position-absolute px-3 end-0 top-50 translate-middle-y me-2 small text-muted text-decoration-none">ESQUECEU?</a>
                 </div>
                 <p id="auth-error-message-login" class="text-danger small text-start mb-3" style="min-height: 1.5;" ></p>
                 <p id="auth-error-message-forgot-password" class="text-danger small text-start mb-3" style="min-height: 1.5;" ></p>

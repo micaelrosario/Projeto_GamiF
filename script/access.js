@@ -218,6 +218,21 @@ async function handleLogin() {
         displayError("Formato de e-mail inválido.", 'login');
         return;
     }
+    
+    // --- INÍCIO DA NOVA LÓGICA DE VALIDAÇÃO DE DOMÍNIO ---
+    // Defina os domínios de e-mail permitidos
+    const allowedDomains = ['gmail.com', 'hotmail.com', 'ifba.edu.br'];
+    
+    // Extrai o domínio do e-mail
+    const emailDomain = email.split('@')[1];
+
+    // Verifica se o domínio extraído está na lista de domínios permitidos
+    if (!allowedDomains.includes(emailDomain)) {
+        await toggleLoadingOverlay(false);
+        displayError("Por favor, use um e-mail de um domínio válido.", 'login');
+        return;
+    }
+    // --- FIM DA NOVA LÓGICA DE VALIDAÇÃO DE DOMÍNIO ---
 
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password); 

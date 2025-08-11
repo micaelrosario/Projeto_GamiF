@@ -28,42 +28,45 @@
         </select>
     </div>
 
-    <div class="container my-5" id="home-container" display="none">
+    <div class="container my-5" id="home-container">
         <div class="row justify-content-center">
-            <div class="col-12 col-md-10 col-lg-8 px-4">
-                <header id="outdoor-gamif">
-                    <!--img src="./assets/icons/new_GamiF.png" alt="GamiF Logo" id="app-logo"--> 
-                    <img src="./assets/icons/new_GamiF.png" alt="Module Image" id="module-header-image" style="display: none; max-height: 80px; margin-bottom: 10px; border-radius: 8px;">
+            <div class="col-12 col-md-10 col-lg-8 px-4 d-grid gap-2">
+                
+                <header id="outdoor-gamif" class="pt-1">
+                    <img src="./assets/icons/new_GamiF.png" alt="Module Image" id="module-header-image" style="max-height: 80px; margin-bottom: 10px; border-radius: 8px;">
                     <h1 id="page-title">Carregando...</h1>
                     <p id="page-subtitle">Carregando...</p>
                 </header>
                 
-                <main id="modules-container">
+                <!-- O container de módulos, visível por padrão -->
+                <main id="modules-container" class="">
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
-
+                        <!-- Conteúdo dos módulos será inserido aqui -->
                     </div>
                 </main>
 
-                <main id="quiz-container" class="card py-5 container">
+                <!-- O container do quiz, escondido por padrão com a classe 'hidden' -->
+                <main id="quiz-container" class="card py-3 container d-grid gap-2 hidden">
                     <div class="top-bar-container">
                         <img id="back-to-modules-button" src="https://d35aaqx5ub95lt.cloudfront.net/images/df223d5b9feb8017b323ed21103eb5ac.svg" alt="Voltar">
                         
-                        <div id="progress-container" class="d-flex align-items-center flex-grow-1 mx-3" style="display: block;">
+                        <div id="progress-container" class="d-flex align-items-center flex-grow-1 mx-3">
                             <div id="progress-bar-wrapper">
                                 <div id="progress-bar" style="width: 40%;"></div>
                             </div>
-                            <span id="progress-text">0/5</span>
                         </div>
                         
                         <img src="https://d35aaqx5ub95lt.cloudfront.net/images/hearts/7631e3ee734dd4fe7792626b59457fa4.svg" alt="Coração">
+                        <!--span id="progress-text">3</span--feed-->
                     </div>
 
                     <div id="question-area">
                         <h2 id="question-text" class="text-center py-3">Carregando pergunta...</h2>
                         <div id="options-container" class="px-2">
+                            <!-- Opções serão inseridas aqui -->
                         </div>
                     </div>
-                    <div id="feedback-area">
+                    <div id="feedback-area" class="py-2 hidden">
                         <p id="feedback-text"></p>
                     </div>
                     <button id="next-button" class="align-center">Próxima Pergunta</button>

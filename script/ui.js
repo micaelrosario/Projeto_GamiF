@@ -36,15 +36,13 @@ export const DOMElements = {
  */
 export function updateHeader(title, subtitle, imageSrc = null) {
     DOMElements.pageTitle.textContent = title; // Atualiza o texto do título da página
-    // CORREÇÃO: A linha abaixo é uma duplicata da anterior, deve ser removida para evitar redundância.
-    // DOMElements.pageTitle.textContent = title;
     DOMElements.pageSubtitle.textContent = subtitle; // Atualiza o texto do subtítulo da página
     if (imageSrc) {
         DOMElements.moduleHeaderImage.src = imageSrc; // Define o caminho da imagem
         DOMElements.moduleHeaderImage.alt = title; // Define o texto alternativo da imagem para acessibilidade
-        DOMElements.moduleHeaderImage.style.display = 'block'; // Mostra a imagem
+        DOMElements.moduleHeaderImage.classList.remove('hidden'); // Mostra a imagem
     } else {
-        DOMElements.moduleHeaderImage.style.display = 'none'; // Esconde a imagem se não houver um caminho
+        DOMElements.moduleHeaderImage.classList.add('hidden'); // Esconde a imagem se não houver um caminho
     }
 }
 
@@ -172,7 +170,11 @@ export function showModulesView(onStartQuiz) {
     });
 
     DOMElements.modulesContainer.style.display = 'grid'; // Mostra o container de módulos (usando grid para layout)
-    DOMElements.quizContainer.style.display = 'none'; // Esconde o container do quiz
+    DOMElements.quizContainer.classList.add('hidden');
+    DOMElements.modulesContainer.classList.remove('hidden');
+    DOMElements.outDoor.classList.remove('hidden');
+    DOMElements.rodape.classList.remove('hidden');
+    DOMElements.scoreArea.classList.remove('hidden');
 }
 
 /**
@@ -182,12 +184,13 @@ export function showModulesView(onStartQuiz) {
 export function showQuizView(module) {
     // Atualiza o cabeçalho da página com informações do quiz atual
     updateHeader(module.title, `Teste seus conhecimentos sobre ${module.title}!`, module.image);
-    DOMElements.modulesContainer.style.display = 'none'; // Esconde o container de módulos
-    DOMElements.outDoor.style.display = 'none';
-    DOMElements.rodape.style.display = 'none';
-    DOMElements.scoreArea.style.display = 'none';
-    DOMElements.quizContainer.style.display = 'block'; // Mostra o container do quiz
+    DOMElements.modulesContainer.classList.add('hidden'); // Esconde o container de módulos
+    DOMElements.outDoor.classList.add('hidden');
+    DOMElements.rodape.classList.add('hidden');
+    DOMElements.scoreArea.classList.add('hidden');
+    DOMElements.quizContainer.classList.remove('hidden'); // Mostra o container do quiz
     DOMElements.backToModulesButton.style.display = 'inline-block'; // Mostra o botão de voltar
+    resetQuizState();
 }
 
 /**
@@ -196,20 +199,20 @@ export function showQuizView(module) {
  */
 export function showEmptyModuleView(module) {
     updateHeader(module.title, "Conteúdo em desenvolvimento.", module.image); // Atualiza o cabeçalho
-    DOMElements.modulesContainer.style.display = 'none'; // Esconde módulos
-    DOMElements.quizContainer.style.display = 'block'; // Mostra área do quiz
-    //DOMElements.backToModulesButton.style.display = 'inline-block'; // Mostra botão de voltar
-    DOMElements.progressContainer.style.display = 'none'; // Esconde barra de progresso (não relevante para módulo vazio)
+    DOMElements.modulesContainer.classList.add('hidden'); // Esconde módulos
+    DOMElements.quizContainer.classList.add('hidden'); // Mostra área do quiz
+    DOMElements.backToModulesButton.style.display = 'inline-block'; // Mostra botão de voltar
+    DOMElements.progressContainer.classList.add('hidden'); // Esconde barra de progresso (não relevante para módulo vazio)
     
     // Configura a área da pergunta para exibir a mensagem de "conteúdo em breve"
     DOMElements.questionArea.style.opacity = '1'; 
     DOMElements.questionArea.style.transform = 'translateY(0)';
     DOMElements.questionText.innerHTML = `Conteúdo para "<strong>${module.title}</strong>" estará disponível em breve!`;
     DOMElements.optionsContainer.innerHTML = ''; // Limpa opções de resposta
-    DOMElements.feedbackArea.style.display = 'none'; // Esconde área de feedback
+    DOMElements.feedbackArea.classList.add('hidden'); // Esconde área de feedback
     DOMElements.feedbackText.innerHTML = ''; // Limpa texto de feedback
-    DOMElements.nextButton.style.display = 'none'; // Esconde botão de próxima pergunta
-    DOMElements.score.parentElement.style.display = 'none'; // Esconde área de pontuação
+    DOMElements.nextButton.classList.add('hidden'); // Esconde botão de próxima pergunta
+    DOMElements.score.parentElement.classList.add('hidden'); // Esconde área de pontuação
 }
 
 /**
@@ -221,10 +224,9 @@ export function updateProgressBar(completedCount, totalCount) {
     if (totalCount > 0) { // Garante que não haja divisão por zero
         const percentage = (completedCount / totalCount) * 100; // Calcula a porcentagem de progresso
         DOMElements.progressBar.style.width = percentage + '%'; // Atualiza a largura visual da barra
-        DOMElements.progressText.textContent = `${completedCount} / ${totalCount}`; // Atualiza o texto de progresso
         DOMElements.progressContainer.style.display = 'flex'; // Mostra o container da barra de progresso
     } else {
-        DOMElements.progressContainer.style.display = 'none'; // Esconde a barra se não houver perguntas
+        DOMElements.progressContainer.classList.add('hidden'); // Esconde a barra se não houver perguntas
     }
 }
 
@@ -255,15 +257,16 @@ function fadeIn(element) {
  */
 export function renderQuestion(question, onAnswer) {
     // Esconde/limpa elementos de feedback de uma pergunta anterior
-    DOMElements.feedbackArea.style.display = 'none';
+    DOMElements.feedbackArea.classList.add('hidden');
     DOMElements.feedbackText.innerHTML = '';
     DOMElements.feedbackText.className = ''; // Remove classes de feedback anteriores
     
     // NOVIDADE: Oculta o botão de próxima pergunta ao carregar uma nova pergunta
-    DOMElements.nextButton.style.display = 'none';
+    DOMElements.nextButton.classList.remove('hidden');
+    DOMElements.nextButton.disabled = true;
     
     DOMElements.optionsContainer.innerHTML = ''; // Limpa opções de resposta anteriores
-    DOMElements.score.parentElement.style.display = 'block'; // Garante que a área de pontuação esteja visível
+    DOMElements.score.parentElement.classList.remove('hidden'); // Garante que a área de pontuação esteja visível
 
     DOMElements.questionText.textContent = question.question; // Define o texto da pergunta
 
@@ -281,7 +284,8 @@ export function renderQuestion(question, onAnswer) {
             onAnswer(isCorrect, option, button); // Chama a função de callback com o resultado
             
             // NOVIDADE: Mostra o botão de próxima pergunta após o usuário clicar em uma opção
-            DOMElements.nextButton.style.display = 'block';
+            DOMElements.feedbackArea.classList.remove('hidden')
+            DOMElements.nextButton.disabled = false;
         });
         DOMElements.optionsContainer.appendChild(button); // Adiciona o botão ao container de opções
     });
@@ -310,7 +314,7 @@ export function showAnswerFeedback(isCorrect, selectedOption, button, correctAns
         }
     });
 
-    DOMElements.feedbackArea.style.display = 'block'; // Mostra a área de feedback
+    DOMElements.feedbackArea.classList.remove('hidden'); // Mostra a área de feedback
     let feedbackPrefix = ""; // Prefixo para a mensagem de feedback
 
     // Define a mensagem de feedback e a classe CSS com base na correção da resposta
@@ -326,39 +330,53 @@ export function showAnswerFeedback(isCorrect, selectedOption, button, correctAns
 }
 
 /**
- * Renderiza a tela de resultados finais do quiz.
+ * Renderiza a tela de resultados finais do quiz e configura o botão para voltar ao menu.
  * @param {number} score - A pontuação final do usuário.
  * @param {number} totalQuestions - O número total de perguntas no quiz.
- * @param {Function} onRestart - Função de callback para reiniciar o quiz.
+ * @param {Function} onRestart - Função de callback que precisa ser passada para a `showModulesView`.
  */
 export function renderFinalResults(score, totalQuestions, onRestart) {
-    fadeIn(DOMElements.questionArea); // Aplica fade-in à área de perguntas/resultados
-    updateProgressBar(totalQuestions, totalQuestions); // Atualiza a barra de progresso para 100%
+    fadeIn(DOMElements.questionArea);
+    updateProgressBar(totalQuestions, totalQuestions);
 
-    DOMElements.questionText.innerHTML = `Quiz Concluído! <br>Sua pontuação final é: <strong>${score} de ${totalQuestions}</strong>.`; // Exibe a pontuação final
-    DOMElements.optionsContainer.innerHTML = ''; // Limpa as opções de resposta
-    DOMElements.feedbackArea.style.display = 'block'; // Mostra a área de feedback
+    DOMElements.questionText.innerHTML = `Quiz Concluído! <br>Sua pontuação final é: <strong>${score} de ${totalQuestions}</strong>.`;
+    DOMElements.optionsContainer.innerHTML = '';
+    DOMElements.feedbackArea.classList.remove('hidden');
+    DOMElements.nextButton.classList.remove('hidden'); // Garante que o botão esteja visível
 
-    let finalMessage = ""; // Mensagem final baseada no desempenho
+    let finalMessage = "";
     if (score === totalQuestions) {
         finalMessage = "Excelente! Você dominou todos os conceitos básicos. Parabéns!";
-        DOMElements.feedbackText.classList.add('correct'); // Feedback positivo
+        DOMElements.feedbackText.classList.add('correct');
     } else if (score >= totalQuestions * 0.7) {
         finalMessage = "Muito bom! Você tem um bom entendimento dos fundamentos.";
-        DOMElements.feedbackText.classList.add('correct'); // Feedback positivo intermediário
+        DOMElements.feedbackText.classList.add('correct');
     } else if (score >= totalQuestions * 0.4) {
         finalMessage = "Nada mal! Continue estudando para aprimorar seus conhecimentos.";
-        DOMElements.feedbackText.className = ''; // Remove classes anteriores (deixa neutro)
+        DOMElements.feedbackText.className = '';
     } else {
         finalMessage = "Parece que você está começando. Continue aprendendo e refaça o quiz para fixar os conceitos!";
-        DOMElements.feedbackText.classList.add('incorrect'); // Feedback indicando necessidade de mais estudo
+        DOMElements.feedbackText.classList.add('incorrect');
     }
-    DOMElements.feedbackText.innerHTML = finalMessage; // Define o texto da mensagem final
-    DOMElements.nextButton.style.display = 'inline-block'; // Mostra o botão
-
-    // Clona o botão para remover event listeners antigos e adiciona um novo para reiniciar o quiz
+    DOMElements.feedbackText.innerHTML = finalMessage;
+    
+    // Clona o botão para remover event listeners antigos e adiciona um novo para retornar
     const newNextButton = DOMElements.nextButton.cloneNode(true);
     DOMElements.nextButton.parentNode.replaceChild(newNextButton, DOMElements.nextButton);
     DOMElements.nextButton = newNextButton; 
-    DOMElements.nextButton.addEventListener('click', onRestart); // Adiciona o listener para reiniciar
+    DOMElements.nextButton.textContent = 'Retornar aos Módulos';
+    DOMElements.nextButton.addEventListener('click', onRestart);
 }
+
+export function resetQuizState() {
+    DOMElements.nextButton.textContent = 'Próxima Pergunta';
+    DOMElements.nextButton.disabled = true;
+    DOMElements.nextButton.classList.add('hidden');
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    DOMElements.backToModulesButton.addEventListener('click', () => {
+        showModulesView();
+    });
+});

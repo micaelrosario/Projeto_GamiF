@@ -4,7 +4,7 @@
 import { getProgress } from './state.js'; // Importa a função getProgress do módulo 'state.js' para obter o progresso do usuário.
 import { modules, quizData } from './data.js'; // Importa a lista de módulos e os dados dos quizzes do módulo 'data.js'.
 
-let lives = 3; // O número de vidas iniciais.
+let lives = 4; // O número de vidas iniciais.
 
 // DOMElements: Objeto que armazena referências a todos os elementos HTML importantes que serão manipulados pelo JavaScript.
 // Isso evita a necessidade de procurar os elementos no DOM repetidamente, melhorando a performance e organização.
@@ -41,7 +41,7 @@ export const DOMElements = {
  * Reseta o número de vidas para o valor inicial e atualiza a exibição.
  */
 export function resetLives() {
-    lives = 3;
+    lives = 4;
     updateLivesDisplay();
 }
 

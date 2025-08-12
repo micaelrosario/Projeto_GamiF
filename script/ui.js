@@ -4,6 +4,8 @@
 import { getProgress } from './state.js'; // Importa a função getProgress do módulo 'state.js' para obter o progresso do usuário.
 import { modules, quizData } from './data.js'; // Importa a lista de módulos e os dados dos quizzes do módulo 'data.js'.
 
+let lives = 3; // O número de vidas iniciais.
+
 // DOMElements: Objeto que armazena referências a todos os elementos HTML importantes que serão manipulados pelo JavaScript.
 // Isso evita a necessidade de procurar os elementos no DOM repetidamente, melhorando a performance e organização.
 export const DOMElements = {
@@ -26,7 +28,45 @@ export const DOMElements = {
     progressContainer: document.getElementById('progress-container'), // Container da barra de progresso do quiz
     progressBar: document.getElementById('progress-bar'), // A barra de progresso visual
     progressText: document.getElementById('progress-text'), // Texto que mostra o progresso (ex: "1/5")
+    livesContainer: document.getElementById('lives-container'),
+    livesCount: document.getElementById('lives-count'),
+    messageBox: document.getElementById('message-box')
 };
+
+
+// =============================================================
+// ---------- NOVIDADE: FUNÇÕES PARA O SISTEMA DE VIDAS ----------
+// =============================================================
+/**
+ * Reseta o número de vidas para o valor inicial e atualiza a exibição.
+ */
+export function resetLives() {
+    lives = 3;
+    updateLivesDisplay();
+}
+
+/**
+ * Atualiza o texto que exibe o número de vidas na interface.
+ */
+export function updateLivesDisplay() {
+    if (DOMElements.livesCount) {
+        DOMElements.livesCount.textContent = lives;
+    }
+}
+
+/**
+ * Exibe a caixa de mensagem customizada, como "Game Over".
+ * @param {string} message - A mensagem a ser exibida.
+ */
+function showMessageBox(message) {
+    if (DOMElements.messageBox) {
+        DOMElements.messageBox.textContent = message;
+        DOMElements.messageBox.classList.remove('hidden');
+        DOMElements.messageBox.classList.add('message-box-visible');
+    }
+}
+
+
 
 /**
  * Atualiza o cabeçalho principal da página com novo título, subtítulo e, opcionalmente, uma imagem.
@@ -109,10 +149,7 @@ function createModuleHTML(module, onStartQuiz) {
                 starsHTML = '<span class="stars-filled">⭐</span>' +    // 1 estrela preenchida
                             '<span class="stars-empty">⭐⭐⭐⭐</span>'; // 4 estrelas vazias
                 console.log("Resultado: 1 estrela(s) (>= 20% de acerto)");
-            } else { // Se a porcentagem for abaixo de 20% (ou 0%)
-                starsHTML = '<span class="stars-empty">⭐⭐⭐⭐⭐</span>'; // 0 estrelas preenchidas (todas vazias)
-                console.log("Resultado: 0 estrela(s) (< 20% de acerto)");
-            }
+            } 
             // --- FIM DA LÓGICA DAS ESTRELAS E TROFÉU ---
             
             // Constrói o HTML do indicador de progresso final no card
@@ -268,6 +305,15 @@ export function renderQuestion(question, onAnswer) {
     DOMElements.optionsContainer.innerHTML = ''; // Limpa opções de resposta anteriores
     DOMElements.score.parentElement.classList.remove('hidden'); // Garante que a área de pontuação esteja visível
 
+    // =============================================================
+    // ---------- VERIFICA SE O JOGO ACABOU (VIDAS = 0) ----------
+    // =============================================================
+    if (lives <= 0) {
+        showMessageBox("Game Over!");
+        // Não renderiza a pergunta se o jogo acabou
+        return;
+    }
+
     DOMElements.questionText.textContent = question.question; // Define o texto da pergunta
 
     // Embaralha as opções de resposta para que apareçam em ordem diferente a cada vez
@@ -322,11 +368,51 @@ export function showAnswerFeedback(isCorrect, selectedOption, button, correctAns
         feedbackPrefix = "<strong>Correto!</strong> ";
         DOMElements.feedbackText.classList.add('correct'); // Adiciona classe para feedback correto
     } else {
-        feedbackPrefix = `<strong>Incorreto.</strong> A resposta correta é: <em>"${correctAnswer}"</em>. `;
-        DOMElements.feedbackText.classList.add('incorrect'); // Adiciona classe para feedback incorreto
+        // =============================================================
+        // ---------- LÓGICA DE VIDAS PARA RESPOSTAS INCORRETAS ----------
+        // =============================================================
+        lives--; // Decrementa a contagem de vidas
+        updateLivesDisplay(); // Atualiza a exibição de vidas
+        
+        // Verifica se o jogo acabou
+        if (lives <= 0) {
+            // Se as vidas acabarem, exibe a mensagem de "Game Over"
+            showMessageBox("Game Over!");
+            // Esconde a área de pergunta e opções
+            DOMElements.questionArea.classList.add('hidden');
+            DOMElements.progressContainer.classList.add('hidden');
+        } else {
+             // Se ainda há vidas, mostra o feedback normal de resposta incorreta
+             feedbackPrefix = `<strong>Incorreto.</strong> A resposta correta é: <em>"${correctAnswer}"</em>. `;
+             DOMElements.feedbackText.classList.add('incorrect'); // Adiciona classe para feedback incorreto
+             DOMElements.feedbackText.innerHTML = feedbackPrefix + explanation; // Define o texto e a explicação do feedback
+        }
     }
     DOMElements.feedbackText.innerHTML = feedbackPrefix + explanation; // Define o texto e a explicação do feedback
     DOMElements.nextButton.style.display = 'inline-block'; // Mostra o botão "Próxima Pergunta"
+
+    // Se o jogo não acabou, mostra o botão de próxima pergunta
+    if (lives > 0) {
+        DOMElements.nextButton.style.display = 'inline-block'; // Mostra o botão "Próxima Pergunta"
+    } else {
+        // Se o jogo acabou, esconde o botão "Próxima Pergunta"
+        DOMElements.nextButton.style.display = 'none';
+        
+        // NOVIDADE: Adiciona um botão para "Tentar Novamente" ou "Voltar aos Módulos"
+        const backButton = document.createElement('button');
+        backButton.textContent = 'Voltar aos Módulos';
+        backButton.classList.add('next-button');
+        backButton.addEventListener('click', () => {
+            // Recarrega a página ou chama a função para voltar aos módulos
+            // window.location.reload(); // Opção 1: Recarregar a página
+            showModulesView(); // Opção 2: Voltar aos módulos sem recarregar a página
+            hideMessageBox(); // Garante que a mensagem de Game Over seja removida
+            DOMElements.questionArea.classList.remove('hidden');
+            DOMElements.progressContainer.classList.remove('hidden');
+        });
+        DOMElements.quizContainer.appendChild(backButton);
+    }
+
 }
 
 /**
@@ -334,8 +420,9 @@ export function showAnswerFeedback(isCorrect, selectedOption, button, correctAns
  * @param {number} score - A pontuação final do usuário.
  * @param {number} totalQuestions - O número total de perguntas no quiz.
  * @param {Function} onRestart - Função de callback que precisa ser passada para a `showModulesView`.
- */
-export function renderFinalResults(score, totalQuestions, onRestart) {
+* @param {Function} onStartQuiz
+*/
+export function renderFinalResults(score, totalQuestions, onStartQuiz) {
     fadeIn(DOMElements.questionArea);
     updateProgressBar(totalQuestions, totalQuestions);
 
@@ -365,7 +452,14 @@ export function renderFinalResults(score, totalQuestions, onRestart) {
     DOMElements.nextButton.parentNode.replaceChild(newNextButton, DOMElements.nextButton);
     DOMElements.nextButton = newNextButton; 
     DOMElements.nextButton.textContent = 'Retornar aos Módulos';
-    DOMElements.nextButton.addEventListener('click', onRestart);
+    DOMElements.nextButton.addEventListener('click', () => {
+        showModulesView(onStartQuiz);
+    });
+    // =============================================================
+    // ---------- ESCONDE O CONTAINER DE VIDAS AO FINALIZAR O QUIZ ----------
+    // =============================================================
+    DOMElements.livesContainer.classList.add('hidden');
+
 }
 
 export function resetQuizState() {

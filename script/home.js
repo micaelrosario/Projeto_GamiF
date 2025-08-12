@@ -156,4 +156,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Garante que a função 'init' seja chamada somente depois que todo o conteúdo HTML da página for carregado e parseado.
 document.addEventListener('DOMContentLoaded', init);
-

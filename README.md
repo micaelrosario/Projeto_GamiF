@@ -1,6 +1,6 @@
 # GamiF - Quiz Interativo & Gamificado
 
-![GamiF Logo](assets/icons/new_GamiF.png)
+![GamiF Logo](assets/icons/GAMIF.png)
 
 O **GamiF** é um sistema de quiz interativo e gamificado meticulosamente projetado para auxiliar estudantes na fixação de conteúdos teóricos. Com foco inicial nos desafios do curso de Análise e Desenvolvimento de Sistemas (ADS), a plataforma transcende os formatos tradicionais de avaliação, combinando a seriedade dos quizzes com a leveza e o dinamismo da gamificação. Ao incorporar mecânicas de jogos (pontuação, níveis, desafios e recompensas), o GamiF visa aumentar o engajamento, a retenção de conhecimento e a autonomia dos estudantes, transformando o processo de estudo em uma jornada contínua de aprendizado e superação.
 

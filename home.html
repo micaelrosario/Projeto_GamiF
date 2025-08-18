@@ -29,11 +29,11 @@
     </div>
 
     <div class="container my-5" id="home-container">
-        <div class="row justify-content-center">
-            <div class="col-8 col-md-12 col-lg-8 px-2 d-grid gap-2">
+        <div class="row justify-content-center p-2">
+            <!--div class="col-8 col-md-12 col-lg-8 px-2 d-grid gap-2"-->
                 
                 <header id="outdoor-gamif" class="pt-1">
-                    <img src="./assets/icons/new_GamiF.png" alt="Module Image" id="module-header-image" style="max-height: 80px; margin-bottom: 10px; border-radius: 8px;">
+                    <img src="./assets/icons/GAMIF.png" alt="Module Image" id="module-header-image" style="max-height: 80px; margin-bottom: 10px; border-radius: 8px;" class="hidden">
                     <h1 id="page-title">Carregando...</h1>
                     <p id="page-subtitle">Carregando...</p>
                 </header>
@@ -46,9 +46,9 @@
                 </main>
 
                 <!-- O container do quiz, escondido por padrão com a classe 'hidden' -->
-                <main id="quiz-container" class="card py-5 justify-content-center container d-grid gap-2 hidden">
-                    <div class="top-bar-container">
-                        <img id="back-to-modules-button" src="https://d35aaqx5ub95lt.cloudfront.net/images/df223d5b9feb8017b323ed21103eb5ac.svg" alt="Voltar">
+                <main id="quiz-container" class="card px-3 justify-content-center container-fluid  hidden">
+                    <div id="top-bar" class="top-bar-container pt-4 pb-2">
+                        <img id="back-to-modules-button" src="https://d35aaqx5ub95lt.cloudfront.net/images/df223d5b9feb8017b323ed21103eb5ac.svg" alt="Voltar" style="cursor:pointer">
                         
                         <div id="progress-container" class="d-flex align-items-center flex-grow-1 mx-3">
                             <div id="progress-bar-wrapper">
@@ -62,27 +62,29 @@
                     </div>
 
                     <div id="question-area">
-                        <h4 id="question-text" class="text-center py-2">Carregando pergunta...</h2>
-                        <div id="options-container" class=" py-2">
+                        <h5 id="question-text" class="text-center py-3">Carregando pergunta...</h2>
+                        <div id="options-container" class="">
                             <!-- Opções serão inseridas aqui -->
                         </div>
                     </div>
-                    <div id="feedback-area" class="py-2 hidden">
+                    <div id="feedback-area" class="py-1 hidden">
                         <p id="feedback-text"></p>
                     </div>
-                    <button id="next-button" class="align-center">Próxima Pergunta</button>
+                    <button id="next-button" class="align-center pb-2">Próxima Pergunta</button>
                     <div id="score-area">
                         <p>Pontuação: <span id="score">0</span></p>
                     </div>
                     <div id="message-box" class="message-box hidden"></div>
                 </main>
-
-                <footer id="rodape">
-                    <p>Criado para aprendizado de programação e ADS</p>
-                </footer>
             </div>
         </div>
     </div>
+
+    <footer id="rodape" class="py-3 bg-light mt-auto fixed-bottom">
+        <div class="container text-center">
+            <p class="mb-0">Criado para aprendizado de programação e ADS</p>
+        </div>
+    </footer>
 
     <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
 </body>

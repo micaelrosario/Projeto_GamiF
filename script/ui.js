@@ -29,6 +29,7 @@ export const DOMElements = {
     progressBar: document.getElementById('progress-bar'), // A barra de progresso visual
     progressText: document.getElementById('progress-text'), // Texto que mostra o progresso (ex: "1/5")
     livesContainer: document.getElementById('lives-container'),
+    topBar: document.getElementById('top-bar'),
     livesCount: document.getElementById('lives-count'),
     messageBox: document.getElementById('message-box')
 };
@@ -77,13 +78,14 @@ function showMessageBox(message) {
 export function updateHeader(title, subtitle, imageSrc = null) {
     DOMElements.pageTitle.textContent = title; // Atualiza o texto do título da página
     DOMElements.pageSubtitle.textContent = subtitle; // Atualiza o texto do subtítulo da página
-    if (imageSrc) {
+    DOMElements.moduleHeaderImage.classList.remove('hidden'); // Mostra a imagem
+    /*if (imageSrc) {
         DOMElements.moduleHeaderImage.src = imageSrc; // Define o caminho da imagem
         DOMElements.moduleHeaderImage.alt = title; // Define o texto alternativo da imagem para acessibilidade
         DOMElements.moduleHeaderImage.classList.remove('hidden'); // Mostra a imagem
     } else {
         DOMElements.moduleHeaderImage.classList.add('hidden'); // Esconde a imagem se não houver um caminho
-    }
+    }*/
 }
 
 /**
@@ -346,8 +348,9 @@ export function renderQuestion(question, onAnswer) {
  * @param {HTMLElement} button - O botão HTML da opção selecionada.
  * @param {string} correctAnswer - O texto da resposta correta da pergunta.
  * @param {string} explanation - A explicação da resposta.
+ * @param {Function} onStartQuiz
  */
-export function showAnswerFeedback(isCorrect, selectedOption, button, correctAnswer, explanation) {
+export function showAnswerFeedback(isCorrect, selectedOption, button, correctAnswer, explanation, onStartQuiz) {
     // Desabilita todos os botões de opção para evitar múltiplas respostas
     const optionButtons = DOMElements.optionsContainer.querySelectorAll('.option-button');
     optionButtons.forEach(btn => {
@@ -381,6 +384,7 @@ export function showAnswerFeedback(isCorrect, selectedOption, button, correctAns
             // Esconde a área de pergunta e opções
             DOMElements.questionArea.classList.add('hidden');
             DOMElements.progressContainer.classList.add('hidden');
+            DOMElements.topBar.classList.remove('hidden');
         } else {
              // Se ainda há vidas, mostra o feedback normal de resposta incorreta
              feedbackPrefix = `<strong>Incorreto.</strong> A resposta correta é: <em>"${correctAnswer}"</em>. `;
@@ -396,7 +400,7 @@ export function showAnswerFeedback(isCorrect, selectedOption, button, correctAns
         DOMElements.nextButton.style.display = 'inline-block'; // Mostra o botão "Próxima Pergunta"
     } else {
         // Se o jogo acabou, esconde o botão "Próxima Pergunta"
-        DOMElements.nextButton.style.display = 'none';
+        //DOMElements.nextButton.style.display = 'none';
         
         // NOVIDADE: Adiciona um botão para "Tentar Novamente" ou "Voltar aos Módulos"
         const backButton = document.createElement('button');
@@ -410,7 +414,18 @@ export function showAnswerFeedback(isCorrect, selectedOption, button, correctAns
             DOMElements.questionArea.classList.remove('hidden');
             DOMElements.progressContainer.classList.remove('hidden');
         });
-        DOMElements.quizContainer.appendChild(backButton);
+
+        
+        //DOMElements.nextButton.parentNode.replaceChild(newNextButton, DOMElements.nextButton);
+        DOMElements.nextButton.classList.add('next-button')
+        DOMElements.nextButton.textContent = 'Retornar aos Módulos';
+        DOMElements.nextButton.addEventListener('click', () => {
+            showModulesView()
+            hideMessageBox(); // Garante que a mensagem de Game Over seja removida
+            DOMElements.questionArea.classList.remove('hidden');
+            DOMElements.progressContainer.classList.remove('hidden');
+        });
+        //DOMElements.quizContainer.appendChild(backButton);
     }
 
 }

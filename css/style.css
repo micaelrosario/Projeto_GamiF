@@ -4,17 +4,17 @@
     box-sizing: border-box;
 }
 
-/* Estilos gerais para o corpo da página */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     margin: 0;
-    display: flex; /* Para centralizar o conteúdo principal */
+    display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Garante que o body ocupe a altura total da viewport */
-    height: 100%; /* Garante que o body ocupe a altura total da viewport */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Transição suave para cores de fundo e texto */
+    min-height: 100vh;
+    height: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease;
     text-align: center;
 }
 
@@ -22,20 +22,20 @@ body {
     display: none !important;
 }
 
-/* Estilos para o modo claro (padrão do Bootstrap, mas reforçado) */
+
 html[data-bs-theme="light"] body {
-    background-color: #f8f9fa; /* Fundo claro padrão */
-    color: #212529; /* Texto escuro padrão */
+    background-color: #f8f9fa;
+    color: #212529;
 }
 
-/* Estilos para o modo escuro */
+
 html[data-bs-theme="dark"] body {
-    background-color: #212529; /* Fundo escuro */
-    color: #f8f9fa; /* Texto claro (branco) */
+    background-color: #212529;
+    color: #f8f9fa;
 }
 
-/* Ajustes para elementos de texto específicos no modo escuro */
-/* Força o texto a ser branco para garantir visibilidade em fundos escuros */
+
+
 html[data-bs-theme="dark"] h1,
 html[data-bs-theme="dark"] h2,
 html[data-bs-theme="dark"] h3,
@@ -44,31 +44,35 @@ html[data-bs-theme="dark"] h5,
 html[data-bs-theme="dark"] h6,
 html[data-bs-theme="dark"] p,
 html[data-bs-theme="dark"] span,
-html[data-bs-theme="dark"] a:not(.btn) { /* Exclui links que são botões para não sobrescrever estilos de botão */
+html[data-bs-theme="dark"] a:not(.btn) {
     color: #f8f9fa !important;
 }
 
-/* Estilos para links com classes específicas no modo escuro */
+
 html[data-bs-theme="dark"] a.text-primary {
-    color: #9ec5fe !important; /* Um azul mais claro para links primários no dark mode */
+    color: #9ec5fe !important;
 }
 
 html[data-bs-theme="dark"] .text-body-secondary {
-    color: #adb5bd !important; /* Cor para texto secundário no dark mode */
+    color: #adb5bd !important;
 }
 
-/* Ajuste para o card principal ou containers de conteúdo */
+.card{
+    padding-bottom: 30px;
+}
+
+
 html[data-bs-theme="dark"] .card {
-    background-color: #343a40; /* Fundo mais escuro para cards no dark mode */
-    border-color: #495057; /* Borda mais escura */
+    background-color: #343a40;
+    border-color: #495057;
 }
 
-/* Se você tiver elementos com fundo claro que precisam ser escuros no dark mode */
+
 html[data-bs-theme="dark"] .bg-light {
     background-color: #343a40 !important;
 }
 
-/* --- Estilos do Header (cabeçalho da home) --- */
+
 header {
     display: flex;
     flex-direction: column;
@@ -83,44 +87,45 @@ header {
 }
 
 header h1 {
-    color: #005a9c; /* Cor padrão para o título do cabeçalho */
+    color: #005a9c;
     margin-bottom: 8px;
     font-size: 1.8em; 
 }
 
 header p {
     font-size: 1em;
-    color: #555; /* Cor padrão para o parágrafo do cabeçalho */
+    color: #555;
     margin-bottom: 0; 
 }
 
-/* Ajustes para o cabeçalho no modo escuro */
+
 html[data-bs-theme="dark"] header h1 {
-    color: #9ec5fe !important; /* Título do cabeçalho branco/claro no dark mode */
+    color: #9ec5fe !important;
 }
 
 html[data-bs-theme="dark"] header p {
-    color: #adb5bd !important; /* Parágrafo do cabeçalho mais claro no dark mode */
-}
-
-/* Estilos para o logo GamiF no modo escuro (se for uma imagem escura) */
-html[data-bs-theme="dark"] #app-logo {
-    /* Se o seu logo for escuro e precisar clarear no dark mode, use: */
-    /* filter: brightness(1.8) contrast(1.2); */
-    /* Ou, se tiver uma versão clara do logo, troque o src via JS */
+    color: #adb5bd !important;
 }
 
 
-/* --- Estilos dos Módulos (se ainda usar um layout de grid para módulos fora da trilha) --- */
+#module-header-image{
+    width: 180px;
+}
+
+
 #modules-container {
-    gap: 15px; /* Espaçamento entre os módulos */
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
 .module-item {
-    background-color: #f8f9fa; /* Fundo claro para os itens de módulo */
-    border: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    border: 1px solid #717171;
     border-radius: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease; /* Transições suaves */
+    padding: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0px 8px 0 rgba(0, 110, 255, 0.9w);
 }
 
 .module-item:hover {
@@ -128,10 +133,15 @@ html[data-bs-theme="dark"] #app-logo {
     box-shadow: 0 8px 16px rgba(0,90,156,0.1);
 }
 
+.module-item:active {
+    transform: translateY(4px) translateX(4px);
+    box-shadow: 0px 0px 0 rgba(0, 0, 0, 0.2);
+}
+
 .module-item.locked {
     opacity: 0.65;
     cursor: not-allowed;
-    background-color: #e9ecef; /* Fundo mais claro para módulos bloqueados */
+    background-color: #e9ecef;
     box-shadow: none;
 }
 
@@ -153,7 +163,7 @@ html[data-bs-theme="dark"] #app-logo {
 }
 
 .module-item h3 {
-    color: #005a9c; /* Cor padrão para o título do módulo */
+    color: #005a9c;
     margin-top: 0;
     margin-bottom: 8px;
     font-size: 1.1em;
@@ -162,7 +172,7 @@ html[data-bs-theme="dark"] #app-logo {
 
 .module-item p {
     font-size: 0.85em;
-    color: #495057; /* Cor padrão para o parágrafo do módulo */
+    color: #495057;
     margin-bottom: 10px;
     text-align: center;
 }
@@ -190,11 +200,11 @@ html[data-bs-theme="dark"] #app-logo {
 }
 
 .stars-filled {
-    color: #ffc107; /* Estrela amarela */
+    color: #ffc107;
 }
 
 .stars-empty {
-    color: #d6d6d6; /* Estrela cinza */
+    color: #d6d6d6;
 }
 
 .trophy-icon, .lock-icon {
@@ -230,45 +240,45 @@ html[data-bs-theme="dark"] #app-logo {
     font-weight: 500;
 }
 
-/* Ajustes para os módulos no modo escuro */
+
 html[data-bs-theme="dark"] .module-item {
-    background-color: #343a40; /* Fundo mais escuro para itens de módulo */
+    background-color: #343a40;
     border-color: #495057;
     padding: 20px;
 }
 
 html[data-bs-theme="dark"] .module-item.locked {
-    background-color: #2c353a; /* Fundo ainda mais escuro para módulos bloqueados */
+    background-color: #2c353a;
     border-color: #3a4146;
 }
 
 html[data-bs-theme="dark"] .module-item h3 {
-    color: #f8f9fa !important; /* Título do módulo branco */
+    color: #f8f9fa !important;
 }
 
 html[data-bs-theme="dark"] .module-item p {
-    color: #adb5bd !important; /* Parágrafo do módulo mais claro */
+    color: #adb5bd !important;
 }
 
 html[data-bs-theme="dark"] .module-footer {
-    border-top-color: #495057; /* Borda do footer mais escura */
+    border-top-color: #495057;
 }
 
 html[data-bs-theme="dark"] .percentage {
-    color: #e7f3ff; /* Cor do texto da porcentagem mais clara */
-    background-color: #004d80; /* Fundo da porcentagem mais escuro */
+    color: #e7f3ff;
+    background-color: #004d80;
 }
 
 html[data-bs-theme="dark"] .retry-message {
-    color: #adb5bd; /* Mensagem de tentar novamente mais clara */
+    color: #adb5bd;
 }
 
 html[data-bs-theme="dark"] .retry-message.complete {
-    color: #28a745; /* Verde para completo (manter) */
+    color: #28a745;
 }
 
 
-/* --- Estilos do Quiz (mantidos) --- */
+
 #progress-container {
     display: flex;
     align-items: center;
@@ -295,8 +305,6 @@ html[data-bs-theme="dark"] .retry-message.complete {
 .top-bar-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 5px
 }
 
 .top-bar-container img{
@@ -342,22 +350,26 @@ html[data-bs-theme="dark"] .retry-message.complete {
 #progress-bar-wrapper {
     background-color: #e0e0e0;
     border-radius: 1rem;
-    flex-grow: 1; /* Faz com que a barra de progresso ocupe o espaço restante */
+    flex-grow: 1;
     height: 10px;
     overflow: hidden;
     margin: 0 1rem;
 }
 
 #quiz-container {
-    padding: 10px;
+    width: 450px;
+    padding-bottom: 20px;
 }
 
 #question-area {
     text-align: center;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 #question-area h2 {
-    color: #333; /* Cor padrão para o texto da pergunta */
+    color: #333;
     margin-bottom: 20px;
     font-size: 1.5em; 
     line-height: 1.4;
@@ -370,16 +382,16 @@ html[data-bs-theme="dark"] .retry-message.complete {
 }
 
 .option-button {
-    background-color: #007bff; /* Azul padrão */
+    background-color: #007bff;
     color: white;
     border: none;
-    padding: 15px 20px; 
+    padding: 10px 8px; 
     text-align: left;
-    font-size: 1.05em; 
+    font-size: 1.0em; 
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
-    box-shadow: 0 4px 0 rgba(0, 110, 255, 0.4w); /* Sombra 3D */
+    box-shadow: 0 4px 0 rgba(0, 110, 255, 0.4w);
 }
 
 .option-button:hover:not(:disabled) {
@@ -389,13 +401,13 @@ html[data-bs-theme="dark"] .retry-message.complete {
 
 .option-button:active {
     box-shadow: none;
-    transform: translateY(4px); /* Efeito de clique */
+    transform: translateY(4px);
 }
 
 .option-button.correct {
-    background-color: #28a745; /* Verde para correto */
+    background-color: #28a745;
     color: white;
-    box-shadow: 0 4px 0 #1e7e34; /* Sombra verde */
+    box-shadow: 0 4px 0 #1e7e34;
 }
 
 .option-button.correct:active {
@@ -404,9 +416,9 @@ html[data-bs-theme="dark"] .retry-message.complete {
 }
 
 .option-button.incorrect {
-    background-color: #dc3545; /* Vermelho para incorreto */
+    background-color: #dc3545;
     color: white;
-    box-shadow: 0 4px 0 #b32d3a; /* Sombra vermelha */
+    box-shadow: 0 4px 0 #b32d3a;
 }
 
 .option-button.incorrect:active {
@@ -422,20 +434,22 @@ html[data-bs-theme="dark"] .retry-message.complete {
 #feedback-area {
     padding: 15px;
     border-radius: 8px;
-    background-color: #e9ecef; /* Fundo padrão para feedback */
+    background-color: #e9ecef;
     min-height: 50px;
     text-align: left;
+    margin-top: 8px;
 }
 
 #feedback-text {
-    font-size: 1.05em;
+    font-size: 0.9em;
     font-weight: normal; 
     line-height: 1.5;
+    padding-top: 8px;
 }
 
 
 #next-button {
-    background-color: #28a745; /* Verde padrão */
+    background-color: #28a745;
     color: white;
     border: none;
     padding: 12px 25px; 
@@ -444,9 +458,9 @@ html[data-bs-theme="dark"] .retry-message.complete {
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    display: none; /* Escondido por padrão */
+    display: none;
     margin-top: 10px; 
-    box-shadow: 0 5px 0 #1e7e34; /* Sombra 3D */
+    box-shadow: 0 5px 0 #1e7e34;
 }
 
 #next-button:hover {
@@ -458,14 +472,14 @@ html[data-bs-theme="dark"] .retry-message.complete {
     transform: translateY(5px);
 }
 
-/* Estilo para o botão quando desabilitado, agora com bordas */
+
 #next-button:disabled {
     background-color: var(--disabled-text-color); 
     color: var(--disabled-text-color);
     cursor: not-allowed;
     transform: none;
-    border: 2px solid #434343; /* Adicionando borda escura */
-    box-shadow: 0 2px 0 #343434; /* Sombra 3D */
+    border: 2px solid #434343;
+    box-shadow: 0 2px 0 #343434;
 }
 
 #next-button:disabled:hover {
@@ -474,8 +488,8 @@ html[data-bs-theme="dark"] .retry-message.complete {
 
 
 
-.nav-button { /* Botão "Voltar aos Módulos" */
-    background-color: #6c757d; /* Cinza padrão */
+.nav-button {
+    background-color: #6c757d;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -487,7 +501,7 @@ html[data-bs-theme="dark"] .retry-message.complete {
     display: block; 
     margin-left: auto; 
     margin-right: auto; 
-    box-shadow: 0 5px 0 #5a6268; /* Sombra 3D */
+    box-shadow: 0 5px 0 #5a6268;
 }
 
 .nav-button:hover {
@@ -499,28 +513,28 @@ html[data-bs-theme="dark"] .retry-message.complete {
     transform: translateY(5px);
 }
 
-/* Ajustes para o quiz no modo escuro */
+
 html[data-bs-theme="dark"] #progress-bar-wrapper {
-    background-color: #495057; /* Fundo da barra de progresso */
+    background-color: #495057;
 }
 
 html[data-bs-theme="dark"] #progress-bar {
-    background-color: #00cf30; /* Cor do progresso (manter azul) */
+    background-color: #00cf30;
 }
 
 html[data-bs-theme="dark"] #progress-text {
-    color: #f8f9fa !important; /* Texto de progresso branco */
+    color: #f8f9fa !important;
 }
 
 html[data-bs-theme="dark"] #question-area h2 {
-    color: #f8f9fa !important; /* Texto da pergunta branco */
+    color: #f8f9fa !important;
 }
 
 html[data-bs-theme="dark"] .option-button {
     background-color: #007bff;
-    color: #f8f9fa; /* Texto do botão de opção branco */
+    color: #f8f9fa;
     border-color: #6c757d;
-    box-shadow: 0 4px 0 #343a40; /* Sombra mais escura */
+    box-shadow: 0 4px 0 #004d80;
 }
 
 html[data-bs-theme="dark"] .option-button:hover:not(:disabled) {
@@ -528,59 +542,59 @@ html[data-bs-theme="dark"] .option-button:hover:not(:disabled) {
 }
 
 html[data-bs-theme="dark"] .option-button.correct {
-    background-color: #28a745; /* Manter verde */
+    background-color: #28a745;
     color: white;
-    box-shadow: 0 4px 0 #1e7e34; /* Sombra verde */
+    box-shadow: 0 4px 0 #1e7e34;
 }
 
 html[data-bs-theme="dark"] .option-button.incorrect {
-    background-color: #dc3545; /* Manter vermelho */
-    color: white;
-    box-shadow: 0 4px 0 #b32d3a; /* Sombra vermelha */
+    background-color: #dc3545;
+    color: #ffffff;
+    box-shadow: 0 4px 0 #b32d3a;
 }
 
 html[data-bs-theme="dark"] #feedback-area {
-    background-color: #2c353a; /* Fundo do feedback mais escuro */
+    background-color: #2c353a;
 }
 
 html[data-bs-theme="dark"] #feedback-text {
-    color: #f8f9fa !important; /* Texto do feedback branco */
+    color: #f8f9fa !important;
 }
 
 
 html[data-bs-theme="dark"] #score-area {
-    color: #9ec5fe !important; /* Pontuação azul clara */
+    color: #9ec5fe !important;
 }
 
 
-/* --- Estilos do Footer --- */
+
 footer {
     margin-top: 35px;
     font-size: 0.9em;
-    color: #777; /* Cor padrão do texto do footer */
+    color: #777;
 }
 
-footer p.font-info { /* Esta classe não parece ser usada no HTML fornecido */
+footer p.font-info {
     font-size: 0.8em;
     color: #999;
     margin-top: 5px;
 }
 
-/* Ajustes para o footer no modo escuro */
+
 html[data-bs-theme="dark"] footer p {
-    color: #adb5bd !important; /* Cor do texto do footer no dark mode */
+    color: #adb5bd !important;
 }
 
 
-/* --- Estilos de Botões Globais (com efeitos de sombra) --- */
+
 .btn {
-    transition: all 0.1s ease-out; /* Transição para todos os botões */
+    transition: all 0.1s ease-out;
     border: none;
 }
 
 .btn-primary {
     background-color: #007bff;
-    box-shadow: 0 5px 0 #0056b3 !important; /* Sombra 3D */
+    box-shadow: 0 5px 0 #0056b3 !important;
 }
 
 .btn-primary:active {
@@ -591,7 +605,7 @@ html[data-bs-theme="dark"] footer p {
 
 .btn-success {
     background-color: #28a745; 
-    box-shadow: 0 5px 0 #1e7e34 !important; /* Sombra 3D */
+    box-shadow: 0 5px 0 #1e7e34 !important;
 }
 
 .btn-success:active {
@@ -600,28 +614,28 @@ html[data-bs-theme="dark"] footer p {
     background-color: #1e7e34;
 }
 
-/* Estilos para o Botão Google com Efeito de Clique */
+
 .btn-google-effect {
     background-color: white !important; 
-    color: #4285F4 !important; /* Cor do texto azul do Google */
+    color: #4285F4 !important;
     border: 1px solid #dadce0 !important; 
-    box-shadow: 0 3px 0 #cccccc !important; /* Sombra 3D */
+    box-shadow: 0 3px 0 #cccccc !important;
     transition: all 0.1s ease-out; 
 }
 
 .btn-google-effect:hover {
-    background-color: #f8f8f8 !important; /* Fundo ligeiramente mais escuro no hover */
-    border-color: #a9a9a9 !important; /* Borda ligeiramente mais escura no hover */
+    background-color: #f8f8f8 !important;
+    border-color: #a9a9a9 !important;
 }
 
 .btn-google-effect:active {
-    box-shadow: none !important; /* Remove a sombra */
-    transform: translateY(5px); /* Move o botão para baixo para simular o clique */
-    background-color: #e0e0e0 !important; /* Um cinza bem claro ao clicar */
+    box-shadow: none !important;
+    transform: translateY(5px);
+    background-color: #e0e0e0 !important;
     border-color: #b0b0b0 !important;
 }
 
-/* Ajustes para o seletor de tema no modo escuro */
+
 html[data-bs-theme="dark"] #theme-select {
     background-color: #495057;
     color: #f8f9fa;
@@ -634,14 +648,14 @@ html[data-bs-theme="dark"] #theme-select option {
 }
 
 
-/* --- Estilos para o Overlay de Carregamento (Estilo Duolingo) --- */
+
 .loading-overlay {
     position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #2b3a42; /* Fundo escuro Duolingo */
+    background-color: #2b3a42;
     display: flex;
     flex-direction: column; 
     justify-content: center; 
@@ -650,24 +664,24 @@ html[data-bs-theme="dark"] #theme-select option {
     color: white; 
     font-size: 1.2em;
     text-align: center;
-    opacity: 1; /* Garante que esteja visível por padrão se não for controlado por JS */
-    transition: opacity 0.3s ease-in-out; /* Transição suave */
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .loading-overlay.hidden {
     opacity: 0;
-    pointer-events: none; /* Permite cliques através quando invisível */
+    pointer-events: none;
 }
 
 .loading-overlay .loading-message {
     font-weight: bold;
-    color: #ffffff; /* Texto branco */
-    letter-spacing: 2px; /* Espaçamento entre letras */
-    text-transform: uppercase; /* Maiúsculas */
-    animation: pulse 1.5s infinite alternate; /* Animação de pulso */
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: pulse 1.5s infinite alternate;
 }
 
-/* Animação para o texto do loading overlay */
+
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -679,7 +693,7 @@ html[data-bs-theme="dark"] #theme-select option {
     }
 }
 
-/* Animação para elementos que aparecem (como perguntas do quiz) */
+
 @keyframes fadeIn {
     to {
         opacity: 1;
@@ -689,18 +703,18 @@ html[data-bs-theme="dark"] #theme-select option {
 
 
 
-/* --- Seletor de Unidades (Topo da Trilha) --- */
+
 .unit-selector-bar {
     display: flex;
-    justify-content: center; /* Centraliza as unidades */
+    justify-content: center;
     align-items: center;
     padding: 10px 0;
-    background-color: #f0f0f0; /* Fundo do seletor */
+    background-color: #f0f0f0;
     border-bottom: 1px solid #e0e0e0;
     margin-bottom: 20px;
     border-radius: 10px;
-    overflow-x: auto; /* Permite rolagem horizontal se muitas unidades */
-    white-space: nowrap; /* Impede quebra de linha dos itens */
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 html[data-bs-theme="dark"] .unit-selector-bar {
@@ -737,7 +751,7 @@ html[data-bs-theme="dark"] .unit-selector-item:hover {
 }
 
 .unit-selector-item.active {
-    background-color: #007bff; /* Cor ativa */
+    background-color: #007bff;
     color: white;
     border-color: #007bff;
     box-shadow: 0 2px 5px rgba(0,123,255,0.2);
@@ -745,13 +759,28 @@ html[data-bs-theme="dark"] .unit-selector-item:hover {
 
 html[data-bs-theme="dark"] .unit-selector-item.active {
     background-color: #9ec5fe;
-    color: #212529; /* Texto escuro para contraste no dark mode */
+    color: #212529;
     border-color: #9ec5fe;
 }
 
+@media (max-width: 464px) {
+    #module-header-image{
+        width: 120px;
+    }
+    #page-title{
+        font-size: 23px;
+    }
+    .module-item{
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    #quiz-container {
+        width: 390px;
+        padding-top: 20px;
+    }
+}
 
-/* --- Ajustes Responsivos --- */
-@media (min-width: 600px) {
+@media (max-width: 600px) {
     .nav-button {
         margin-left: 0; 
         margin-right: auto;
@@ -759,11 +788,6 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
 }
 
 @media (min-width: 768px) {
-    /* O ID #app-container não foi encontrado no HTML fornecido,
-       então esta regra pode não ter efeito. */
-    /* #app-container {
-        padding: 25px;
-    } */
     header h1 {
         font-size: 2em;
     }
@@ -771,20 +795,21 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
         font-size: 1.1em;
     }
     #modules-container {
-        /* Ajuste para 2 colunas em telas maiores */
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 25px;
+        margin-bottom: 20px;
     }
     .module-item {
         padding: 20px;
         min-height: 280px;
     }
     .module-card-image {
-        max-height: 100px;
+        width: 30%;
+        max-height: 80px;
         margin-bottom: 15px;
     }
     .module-item h3 {
-        font-size: 1.3em;
+        font-size: 1.0em;
         margin-bottom: 10px;
     }
     .module-item p {
@@ -802,16 +827,19 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
         font-size: 1.6em;
         letter-spacing: 2px;
     }
+    #top-bar {
+        margin-top: 20px;
+    }
 }
 
-/* --- Estilos para o Overlay de Carregamento (Estilo Duolingo) --- */
+
 .loading-overlay {
     position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #2b3a42; /* Fundo escuro Duolingo */
+    background-color: #2b3a42;
     display: flex;
     flex-direction: column; 
     justify-content: center; 
@@ -820,24 +848,24 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
     color: white; 
     font-size: 1.2em;
     text-align: center;
-    opacity: 1; /* Garante que esteja visível por padrão se não for controlado por JS */
-    transition: opacity 0.3s ease-in-out; /* Transição suave */
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .loading-overlay.hidden {
     opacity: 0;
-    pointer-events: none; /* Permite cliques através quando invisível */
+    pointer-events: none;
 }
 
 .loading-overlay .loading-message {
     font-weight: bold;
-    color: #ffffff; /* Texto branco */
-    letter-spacing: 2px; /* Espaçamento entre letras */
-    text-transform: uppercase; /* Maiúsculas */
-    animation: pulse 1.5s infinite alternate; /* Animação de pulso */
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: pulse 1.5s infinite alternate;
 }
 
-/* Animação para o texto do loading overlay */
+
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -849,7 +877,7 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
     }
 }
 
-/* Animação para elementos que aparecem (como perguntas do quiz) */
+
 @keyframes fadeIn {
     to {
         opacity: 1;
@@ -859,18 +887,18 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
 
 
 
-/* --- Seletor de Unidades (Topo da Trilha) --- */
+
 .unit-selector-bar {
     display: flex;
-    justify-content: center; /* Centraliza as unidades */
+    justify-content: center;
     align-items: center;
     padding: 10px 0;
-    background-color: #f0f0f0; /* Fundo do seletor */
+    background-color: #f0f0f0;
     border-bottom: 1px solid #e0e0e0;
     margin-bottom: 20px;
     border-radius: 10px;
-    overflow-x: auto; /* Permite rolagem horizontal se muitas unidades */
-    white-space: nowrap; /* Impede quebra de linha dos itens */
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 html[data-bs-theme="dark"] .unit-selector-bar {
@@ -907,7 +935,7 @@ html[data-bs-theme="dark"] .unit-selector-item:hover {
 }
 
 .unit-selector-item.active {
-    background-color: #007bff; /* Cor ativa */
+    background-color: #007bff;
     color: white;
     border-color: #007bff;
     box-shadow: 0 2px 5px rgba(0,123,255,0.2);
@@ -915,12 +943,12 @@ html[data-bs-theme="dark"] .unit-selector-item:hover {
 
 html[data-bs-theme="dark"] .unit-selector-item.active {
     background-color: #9ec5fe;
-    color: #212529; /* Texto escuro para contraste no dark mode */
+    color: #212529;
     border-color: #9ec5fe;
 }
 
 
-/* --- Ajustes Responsivos --- */
+
 @media (min-width: 600px) {
     .nav-button {
         margin-left: 0; 
@@ -929,11 +957,6 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
 }
 
 @media (min-width: 768px) {
-    /* O ID #app-container não foi encontrado no HTML fornecido,
-       então esta regra pode não ter efeito. */
-    /* #app-container {
-        padding: 25px;
-    } */
     header h1 {
         font-size: 2em;
     }
@@ -941,7 +964,7 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
         font-size: 1.1em;
     }
     #modules-container {
-        /* Ajuste para 2 colunas em telas maiores */
+       
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 25px;
     }
@@ -950,7 +973,7 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
         min-height: 280px;
     }
     .module-card-image {
-        max-height: 100px;
+        max-height: 80px;
         margin-bottom: 15px;
     }
     .module-item h3 {
@@ -974,14 +997,14 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
     }
 }
 
-/* --- Estilos para o Overlay de Carregamento (Estilo Duolingo) --- */
+
 .loading-overlay {
     position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #2b3a42; /* Fundo escuro Duolingo */
+    background-color: #2b3a42;
     display: flex;
     flex-direction: column; 
     justify-content: center; 
@@ -990,24 +1013,24 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
     color: white; 
     font-size: 1.2em;
     text-align: center;
-    opacity: 1; /* Garante que esteja visível por padrão se não for controlado por JS */
-    transition: opacity 0.3s ease-in-out; /* Transição suave */
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .loading-overlay.hidden {
     opacity: 0;
-    pointer-events: none; /* Permite cliques através quando invisível */
+    pointer-events: none;
 }
 
 .loading-overlay .loading-message {
     font-weight: bold;
-    color: #ffffff; /* Texto branco */
-    letter-spacing: 2px; /* Espaçamento entre letras */
-    text-transform: uppercase; /* Maiúsculas */
-    animation: pulse 1.5s infinite alternate; /* Animação de pulso */
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: pulse 1.5s infinite alternate;
 }
 
-/* Animação para o texto do loading overlay */
+
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -1019,7 +1042,7 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
     }
 }
 
-/* Animação para elementos que aparecem (como perguntas do quiz) */
+
 @keyframes fadeIn {
     to {
         opacity: 1;
@@ -1028,18 +1051,18 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
 }
 
 
-/* --- Seletor de Unidades (Topo da Trilha) --- */
+
 .unit-selector-bar {
     display: flex;
-    justify-content: center; /* Centraliza as unidades */
+    justify-content: center;
     align-items: center;
     padding: 10px 0;
-    background-color: #f0f0f0; /* Fundo do seletor */
+    background-color: #f0f0f0;
     border-bottom: 1px solid #e0e0e0;
     margin-bottom: 20px;
     border-radius: 10px;
-    overflow-x: auto; /* Permite rolagem horizontal se muitas unidades */
-    white-space: nowrap; /* Impede quebra de linha dos itens */
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 html[data-bs-theme="dark"] .unit-selector-bar {
@@ -1076,7 +1099,7 @@ html[data-bs-theme="dark"] .unit-selector-item:hover {
 }
 
 .unit-selector-item.active {
-    background-color: #007bff; /* Cor ativa */
+    background-color: #007bff;
     color: white;
     border-color: #007bff;
     box-shadow: 0 2px 5px rgba(0,123,255,0.2);
@@ -1084,12 +1107,12 @@ html[data-bs-theme="dark"] .unit-selector-item:hover {
 
 html[data-bs-theme="dark"] .unit-selector-item.active {
     background-color: #9ec5fe;
-    color: #212529; /* Texto escuro para contraste no dark mode */
+    color: #212529;
     border-color: #9ec5fe;
 }
 
 
-/* --- Ajustes Responsivos --- */
+
 @media (min-width: 600px) {
     .nav-button {
         margin-left: 0; 
@@ -1098,11 +1121,8 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
 }
 
 @media (min-width: 768px) {
-    /* O ID #app-container não foi encontrado no HTML fornecido,
-       então esta regra pode não ter efeito. */
-    /* #app-container {
-        padding: 25px;
-    } */
+   
+   
     header h1 {
         font-size: 2em;
     }
@@ -1110,7 +1130,7 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
         font-size: 1.1em;
     }
     #modules-container {
-        /* Ajuste para 2 colunas em telas maiores */
+       
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 25px;
     }
@@ -1143,70 +1163,70 @@ html[data-bs-theme="dark"] .unit-selector-item.active {
     }
 }
 
-/* --- Estilos para o Quiz Info Popup (Novo) --- */
+
 .quiz-info-popup {
-    position: absolute; /* Posiciona-o em relação ao nó clicado */
-    background-color: #fff; /* Fundo branco padrão */
+    position: absolute;
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 12px;
     padding: 20px;
-    width: 280px; /* Largura do popup */
+    width: 280px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    z-index: 100; /* Acima de outros elementos */
-    display: none; /* Escondido por padrão */
-    flex-direction: column; /* Conteúdo em coluna */
+    z-index: 100;
+    display: none;
+    flex-direction: column;
     align-items: center;
     text-align: center;
-    transform: translate(-50%, -100%); /* Ajusta a posição para ficar acima e centralizado */
-    transition: opacity 0.3s ease, transform 0.3s ease; /* Transição suave */
-    opacity: 0; /* Começa invisível para a transição */
+    transform: translate(-50%, -100%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
 }
 
 .quiz-info-popup.show {
     opacity: 1;
-    transform: translate(-50%, -110%); /* Pequeno movimento para cima ao aparecer */
+    transform: translate(-50%, -110%);
 }
 
-/* Seta apontando para o nó */
+
 .quiz-info-popup::after {
     content: '';
     position: absolute;
-    bottom: -10px; /* Posiciona a seta abaixo do popup */
+    bottom: -10px;
     left: 50%;
     transform: translateX(-50%) rotate(45deg);
     width: 20px;
     height: 20px;
-    background-color: #fff; /* Cor da seta igual ao fundo do popup */
+    background-color: #fff;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    z-index: -1; /* Fica atrás do conteúdo do popup */
-    border-radius: 0 0 4px 0; /* Borda arredondada para a seta */
+    z-index: -1;
+    border-radius: 0 0 4px 0;
 }
 
 .quiz-info-popup h4 {
     font-size: 1.2em;
     font-weight: bold;
-    color: #005a9c; /* Cor do título do quiz */
+    color: #005a9c;
     margin-bottom: 8px;
 }
 
 .quiz-info-popup p {
     font-size: 0.9em;
-    color: #555; /* Cor da descrição */
+    color: #555;
     margin-bottom: 15px;
 }
 
 .quiz-info-popup .btn {
-    width: 80%; /* Largura do botão */
+    width: 80%;
     padding: 10px 20px;
     font-size: 1em;
-    border-radius: 25px; /* Botão arredondado */
+    border-radius: 25px;
 }
 
 
-/* Estilos para o popup no modo escuro */
+
 html[data-bs-theme="dark"] .quiz-info-popup {
-    background-color: #3a4146; /* Fundo escuro */
+    background-color: #3a4146;
     border-color: #5a6268;
     box-shadow: 0 8px 16px rgba(0,0,0,0.5);
 }
@@ -1218,14 +1238,14 @@ html[data-bs-theme="dark"] .quiz-info-popup::after {
 }
 
 html[data-bs-theme="dark"] .quiz-info-popup h4 {
-    color: #9ec5fe !important; /* Título claro */
+    color: #9ec5fe !important;
 }
 
 html[data-bs-theme="dark"] .quiz-info-popup p {
-    color: #adb5bd !important; /* Descrição clara */
+    color: #adb5bd !important;
 }
 
-/* --- Ajustes Responsivos --- */
+
 @media (min-width: 600px) {
     .nav-button {
         margin-left: 0; 
@@ -1238,11 +1258,8 @@ html[data-bs-theme="dark"] .quiz-info-popup p {
 }
 
 @media (min-width: 768px) {
-    /* O ID #app-container não foi encontrado no HTML fornecido,
-       então esta regra pode não ter efeito. */
-    /* #app-container {
-        padding: 25px;
-    } */
+   
+   
     header h1 {
         font-size: 2em;
     }
@@ -1250,7 +1267,7 @@ html[data-bs-theme="dark"] .quiz-info-popup p {
         font-size: 1.1em;
     }
     #modules-container {
-        /* Ajuste para 2 colunas em telas maiores */
+       
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 25px;
     }

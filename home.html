@@ -8,9 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script type="module" src="./script/home.js" defer></script>
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-heart-eyes" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M11.315 10.014a.5.5 0 0 1 .548.736A4.498 4.498 0 0 1 7.965 13a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .548-.736h.005l.017.005.067.015.252.055c.215.046.515.108.857.169.693.124 1.522.242 2.152.242.63 0 1.46-.118 2.152-.242a26.58 26.58 0 0 0 1.109-.224l.067-.015.017-.004.005-.002zM4.756 4.566c.763-1.424 4.02-.12.952 3.434-4.496-1.596-2.35-4.298-.952-3.434zm6.488 0c1.398-.864 3.544 1.838-.952 3.434-3.067-3.554.19-4.858.952-3.434z"/></svg>
-    
     <script type="importmap">
        {
             "imports": {
@@ -34,7 +34,7 @@
     </div>
 
 
-    <nav class="menu-lateral position-fixed top-0 start-0 ps-3 pt-3">
+    <nav id="menu-lateral" class="position-fixed top-0 start-0 ps-3 pt-3 hidden">
         <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
             aria-controls="offcanvasExample">
             <span class="navbar-toggler-icon"></span>
@@ -52,24 +52,19 @@
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
                 <a href="#" class="nav-link active" aria-current="page">
-                    <i class="bi bi-house-door-fill me-2"></i>
-                    <img src="/assets/icons/house-door-fill.svg" style="color: white;" alt="Bootstrap" width="32" height="32">
-                    Home
+                    <i class="bi bi-joystick  pe-2"></i>
+                    Jogar
                 </a>
             </li>
             <li>
                 <a href="#" class="nav-link link-dark">
-                    <svg class="bi me-2" width="16" height="16">
-                        <use xlink:href="#speedometer2" />
-                    </svg>
+                    <i class="bi bi-bar-chart-fill pe-2"></i>
                     Dashboard
                 </a>
             </li>
             <li>
                 <a href="#" class="nav-link link-dark">
-                    <svg class="bi me-2" width="16" height="16">
-                        <use xlink:href="#table" />
-                    </svg>
+                    <i class="bi bi-trophy pe-2"></i>
                     Ranking
                 </a>
             </li>
@@ -86,7 +81,12 @@
                 <li>
                     <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="#">Sair</a></li>
+                <li>
+                    <a class="dropdown-item" href="#">
+                        <i class="bi bi-box-arrow-in-left pe-2"></i>
+                        Sair
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -156,7 +156,6 @@
 
     <canvas id="confetti-canvas"
         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

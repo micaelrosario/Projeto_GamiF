@@ -10,12 +10,9 @@ body {
     line-height: 1.6;
     margin: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
     height: 100%;
     transition: background-color 0.3s ease, color 0.3s ease;
-    text-align: center;
 }
 
 .hidden{
@@ -116,6 +113,9 @@ html[data-bs-theme="dark"] header p {
 #modules-container {
     gap: 15px;
     margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .module-item {

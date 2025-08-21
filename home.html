@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-bs-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GAMIF</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
     <script type="module" src="./script/home.js" defer></script>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-heart-eyes" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M11.315 10.014a.5.5 0 0 1 .548.736A4.498 4.498 0 0 1 7.965 13a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .548-.736h.005l.017.005.067.015.252.055c.215.046.515.108.857.169.693.124 1.522.242 2.152.242.63 0 1.46-.118 2.152-.242a26.58 26.58 0 0 0 1.109-.224l.067-.015.017-.004.005-.002zM4.756 4.566c.763-1.424 4.02-.12.952 3.434-4.496-1.596-2.35-4.298-.952-3.434zm6.488 0c1.398-.864 3.544 1.838-.952 3.434-3.067-3.554.19-4.858.952-3.434z"/></svg>
+    
     <script type="importmap">
        {
             "imports": {
@@ -19,6 +23,7 @@
         }
     </script>
 </head>
+
 <body>
     <div class="position-fixed top-0 end-0 p-3 z-3">
         <select id="theme-select" class="form-select form-select-sm">
@@ -28,56 +33,119 @@
         </select>
     </div>
 
+
+    <nav class="menu-lateral position-fixed top-0 start-0 ps-3 pt-3">
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+            aria-controls="offcanvasExample">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+    <div class="offcanvas offcanvas-start d-flex flex-column flex-shrink-0 p-3 bg-light" tabindex="-1"
+        id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width: 250px;">
+
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <img src="./assets/icons/GAMIF.png" alt="Module Image" id="module-header-image"
+                    style=" max-width: 150px; margin-bottom: 5px; border-radius: 8px;" class="hidden ps-3 pt-2">
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" aria-current="page">
+                    <i class="bi bi-house-door-fill me-2"></i>
+                    <img src="/assets/icons/house-door-fill.svg" style="color: white;" alt="Bootstrap" width="32" height="32">
+                    Home
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link link-dark">
+                    <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#speedometer2" />
+                    </svg>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link link-dark">
+                    <svg class="bi me-2" width="16" height="16">
+                        <use xlink:href="#table" />
+                    </svg>
+                    Ranking
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+                id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong>Usuário</strong>
+            </a>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                <li><a class="dropdown-item" href="#">Perfil</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Sair</a></li>
+            </ul>
+        </div>
+    </div>
+
+
     <div class="container my-5" id="home-container">
         <div class="row justify-content-center p-2">
             <!--div class="col-8 col-md-12 col-lg-8 px-2 d-grid gap-2"-->
-                
-                <header id="outdoor-gamif" class="pt-1">
-                    <img src="./assets/icons/GAMIF.png" alt="Module Image" id="module-header-image" style="max-height: 80px; margin-bottom: 10px; border-radius: 8px;" class="hidden">
-                    <h1 id="page-title">Carregando...</h1>
-                    <p id="page-subtitle">Carregando...</p>
-                </header>
-                
-                <!-- O container de módulos, visível por padrão -->
-                <main id="modules-container" class="">
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
-                        <!-- Conteúdo dos módulos será inserido aqui -->
-                    </div>
-                </main>
 
-                <!-- O container do quiz, escondido por padrão com a classe 'hidden' -->
-                <main id="quiz-container" class="card px-3 justify-content-center container-fluid  hidden">
-                    <div id="top-bar" class="top-bar-container pt-4 pb-2">
-                        <img id="back-to-modules-button" src="https://d35aaqx5ub95lt.cloudfront.net/images/df223d5b9feb8017b323ed21103eb5ac.svg" alt="Voltar" style="cursor:pointer">
-                                     
-                        <div id="progress-container" class="d-flex align-items-center flex-grow-1 mx-3">
-                            <div id="progress-bar-wrapper">
-                                <div id="progress-bar" style="width: 40%;"></div>
-                            </div>
+            <header id="outdoor-gamif" class="pt-1">
+                <img src="./assets/icons/GAMIF.png" alt="Module Image" id="module-header-image"
+                    style="max-height: 80px; margin-bottom: 10px; border-radius: 8px;" class="">
+                <h1 id="page-title">Carregando...</h1>
+                <p id="page-subtitle">Carregando...</p>
+            </header>
+
+            <!-- O container de módulos, visível por padrão -->
+            <main id="modules-container" class="">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
+                    <!-- Conteúdo dos módulos será inserido aqui -->
+                </div>
+            </main>
+
+            <!-- O container do quiz, escondido por padrão com a classe 'hidden' -->
+            <main id="quiz-container" class="card px-3 justify-content-center container-fluid  hidden">
+                <div id="top-bar" class="top-bar-container pt-4 pb-2">
+                    <img id="back-to-modules-button"
+                        src="https://d35aaqx5ub95lt.cloudfront.net/images/df223d5b9feb8017b323ed21103eb5ac.svg"
+                        alt="Voltar" style="cursor:pointer">
+
+                    <div id="progress-container" class="d-flex align-items-center flex-grow-1 mx-3">
+                        <div id="progress-bar-wrapper">
+                            <div id="progress-bar" style="width: 40%;"></div>
                         </div>
-                        
-                        
-                        <img src="https://d35aaqx5ub95lt.cloudfront.net/images/hearts/7631e3ee734dd4fe7792626b59457fa4.svg" alt="Coração">
-                        <span id="lives-count" class="ps-2">4</span>
                     </div>
 
-                    <div id="question-area">
-                        <h5 id="question-text" class="text-center py-3">Carregando pergunta...</h2>
+
+                    <img src="https://d35aaqx5ub95lt.cloudfront.net/images/hearts/7631e3ee734dd4fe7792626b59457fa4.svg"
+                        alt="Coração">
+                    <span id="lives-count" class="ps-2">4</span>
+                </div>
+
+                <div id="question-area">
+                    <h5 id="question-text" class="text-center py-3">Carregando pergunta...</h2>
                         <div id="options-container" class="">
                             <!-- Opções serão inseridas aqui -->
                         </div>
-                    </div>
-                    <div id="feedback-area" class="py-1 hidden">
-                        <p id="feedback-text"></p>
-                    </div>
-                    <button id="next-button" class="align-center pb-2">Próxima Pergunta</button>
-                    <div id="score-area">
-                        <p>Pontuação: <span id="score">0</span></p>
-                    </div>
-                    <div id="message-box" class="message-box hidden"></div>
-                </main>
-            </div>
+                </div>
+                <div id="feedback-area" class="py-1 hidden">
+                    <p id="feedback-text"></p>
+                </div>
+                <button id="next-button" class="align-center pb-2">Próxima Pergunta</button>
+                <div id="score-area">
+                    <p>Pontuação: <span id="score">0</span></p>
+                </div>
+                <div id="message-box" class="message-box hidden"></div>
+            </main>
         </div>
+    </div>
     </div>
 
     <footer id="rodape" class="py-3 bg-light mt-auto fixed-bottom">
@@ -86,6 +154,9 @@
         </div>
     </footer>
 
-    <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
+    <canvas id="confetti-canvas"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -592,15 +592,15 @@ html[data-bs-theme="dark"] footer p {
     border: none;
 }
 
-.btn-primary {
+#login-button{
     background-color: #007bff;
     box-shadow: 0 5px 0 #0056b3 !important;
 }
 
-.btn-primary:active {
-    box-shadow: none;
+#login-button:active {
+    box-shadow: none !important;
     transform: translateY(5px);
-    background-color: #0056b3; 
+    background-color: #004d80; 
 }
 
 .btn-success {

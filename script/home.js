@@ -5,6 +5,10 @@ import * as Confetti from './confetti.js'; // Importa todas as exportações do 
 import { modules, quizData } from './data.js'; // Importa a lista de módulos e os dados dos quizzes do 'data.js'
 import * as UI from './ui.js';             // Importa todas as exportações do módulo 'ui.js' (que gerencia a interface do usuário)
 import * as State from './state.js';         // Importa todas as exportações do módulo 'state.js' (que gerencia o estado da aplicação, como pontuação e progresso)
+import { auth, signOut, onAuthStateChanged } from './firebase-config.js';
+
+let statusMessage;
+
 
 
 /**
@@ -19,14 +23,14 @@ function handleAnswer(isCorrect, selectedOption, button) {
     const question = State.appState.questions[State.appState.currentQuestionIndex];
     // Mostra o feedback visual na UI (verde para correto, vermelho para incorreto)
     UI.showAnswerFeedback(isCorrect, selectedOption, button, question.correctAnswer, question.explanation);
-    
+
     // Se a resposta estiver correta
     if (isCorrect) {
         State.incrementScore(); // Incrementa a pontuação no estado da aplicação
         UI.updateScore(State.appState.score); // Atualiza a pontuação exibida na UI
         Confetti.playConfetti(); // Toca o efeito de confete para celebrar a resposta correta
     }
-    
+
     // Recria e substitui o botão 'Próxima Pergunta'/'Recomeçar Quiz' para remover listeners de eventos antigos
     // Isso garante que apenas um listener de clique esteja ativo por vez.
     const newNextButton = UI.DOMElements.nextButton.cloneNode(true);
@@ -42,7 +46,7 @@ function handleAnswer(isCorrect, selectedOption, button) {
  */
 function showNextQuestionOrResults() {
     State.advanceQuestion(); // Avança o índice da pergunta atual no estado da aplicação
-    
+
     // Verifica se ainda há mais perguntas no quiz
     if (State.appState.currentQuestionIndex < State.appState.questions.length) {
         // Se sim, renderiza a próxima pergunta e atualiza a barra de progresso
@@ -66,6 +70,23 @@ function showNextQuestionOrResults() {
  * Inicia um quiz para um dado ID de módulo.
  * @param {string} moduleId 
  */
+
+function updateStatus(message, isLoggedIn) {
+    // Garante que o elemento existe antes de tentar manipulá-lo
+    if (!statusMessage) {
+        console.error("Erro: Elemento de status não encontrado.");
+        return;
+    }
+    statusMessage.textContent = message;
+    if (isLoggedIn) {
+        statusMessage.classList.add('bg-green-100', 'text-green-800');
+        statusMessage.classList.remove('bg-red-100', 'text-red-800', 'bg-gray-50', 'text-gray-600');
+    } else {
+        statusMessage.classList.add('bg-red-100', 'text-red-800');
+        statusMessage.classList.remove('bg-green-100', 'text-green-800', 'bg-gray-50', 'text-gray-600');
+    }
+}
+
 function startQuiz(moduleId) {
     // Encontra o objeto do módulo correspondente ao ID fornecido
     const module = modules.find(m => m.id === moduleId);
@@ -83,7 +104,7 @@ function startQuiz(moduleId) {
     // Configura o estado inicial do quiz para o módulo selecionado
     State.setCurrentModule(moduleId, moduleQuestions);
     UI.showQuizView(module); // Exibe a interface do quiz na tela
-    
+
     // Atualiza a pontuação e a barra de progresso para o início do quiz
     UI.updateScore(State.appState.score);
     UI.updateProgressBar(0, State.appState.questions.length);
@@ -92,6 +113,51 @@ function startQuiz(moduleId) {
     const firstQuestion = State.appState.questions[0];
     UI.renderQuestion(firstQuestion, handleAnswer); // Exibe a primeira pergunta na UI e configura seu handler de resposta
 }
+
+async function handleLogout() {
+    try {
+        await signOut(auth);
+        updateStatus("Você foi desconectado com sucesso!", false);
+        console.log("Logout bem-sucedido.");
+        window.location.href = "../../index.html";
+    } catch (error) {
+        updateStatus(`Erro ao fazer logout: ${error.message}`, true);
+        console.error("Erro ao fazer logout:", error);
+    }
+}
+
+onAuthStateChanged(auth, (user) => {
+    // Verifique se o `statusMessage` já está definido para evitar erros
+    if (statusMessage) {
+        if (user) {
+            updateStatus(`Logado como: ${user.email}`, true);
+            console.log("Usuário logado:", user.uid);
+        } else {
+            updateStatus("Você não está logado.", false);
+            console.log("Nenhum usuário logado.");
+        }
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // ⚠️ AQUI o elemento de status é obtido e atribuído à variável global
+    statusMessage = document.getElementById('status-message');
+
+    const logoutLink = document.getElementById('logout-link');
+
+    if (logoutLink) {
+        logoutLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            handleLogout();
+        });
+    } else {
+        console.error("Erro: Elemento com ID 'logout-link' não encontrado.");
+        // Chama a função `updateStatus` se ela já estiver disponível
+        if (statusMessage) {
+            updateStatus("Erro: Botão de logout não encontrado.", false);
+        }
+    }
+});
 
 //Inicializa a aplicação GamiF.
 function init() {
@@ -106,7 +172,7 @@ function init() {
 }
 
 function applyTheme(theme) {
-    const htmlElement = document.documentElement; 
+    const htmlElement = document.documentElement;
     if (htmlElement) {
         let actualTheme = theme;
         if (theme === 'system') {
@@ -114,11 +180,11 @@ function applyTheme(theme) {
             const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
             actualTheme = prefersDark ? 'dark' : 'light';
         }
-        
+
         // Aplica o atributo data-bs-theme ao elemento <html>
         htmlElement.setAttribute('data-bs-theme', actualTheme);
         // Salva a preferência do usuário no localStorage para persistência
-        localStorage.setItem('themePreference', theme); 
+        localStorage.setItem('themePreference', theme);
 
         // Atualiza o valor do seletor de tema na UI
         const themeSelect = document.getElementById('theme-select');

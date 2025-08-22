@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GAMIF</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/style.css"> 
     <script type="module" src="./script/access.js" defer></script>
     <script type="importmap">
@@ -33,7 +34,7 @@
     <main class="card py-1 shadow-lg rounded-4 d-flex"> 
         <!-- Formulário de Login -->
         <div id="login-form" class="card-body text-center mx-2"> 
-            <h1 class="h2 card-title fw-bold text-primary mb-4">Entrar</h1>
+            <h1 class="h2 card-title fw-bold text-primary mb-3">Entrar</h1>
             <p class="mb-4 text-body-secondary" required>Use suas credenciais para acessar o painel de aprendizado!</p>
             <form>
                 <div class="form-floating mb-3"> 
@@ -46,8 +47,8 @@
                     <!-- Link "ESQUECEU?" - NOVO: Classes Bootstrap para estilo -->
                     <a href="#" id="forgot-password" class="position-absolute px-2 end-0 top-50 translate-middle-y me-2 small text-muted text-decoration-none">ESQUECEU?</a>
                 </div>
-                <p id="auth-error-message-login" class="text-danger small text-start mb-3" style="min-height: 1.5;" ></p>
-                <p id="auth-error-message-forgot-password" class="text-danger small text-start mb-3" style="min-height: 1.5;" ></p>
+                <p id="auth-error-message-login" class="error text-danger small text-start mb-3 ps-2" style="min-height: 1.5;" ></p>
+                <p id="auth-error-message-forgot-password" class="error text-danger small text-start mb-3 ps-2" style="min-height: 1.5;" ></p>
                 <button id="login-button" type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm">ENTRAR</button>
             </form>
 
@@ -60,9 +61,9 @@
                 GOOGLE
             </button>
             
-            <p class="text-center text-body-secondary small mt-4">
+            <p class="politica-privacidade text-center text-body-secondary small mt-4">
                 Ao entrar no GAMIF, você concorda com os nossos 
-                <a href="#" class="text-decoration-none text-primary fw-bold">Termos</a> <br>e 
+                <a href="#" class="text-decoration-none text-primary fw-bold">Termos</a> e 
                 <a href="#" class="text-decoration-none text-primary fw-bold">Política de Privacidade</a>.
             </p>
             
@@ -88,7 +89,7 @@
                         <label for="floatingInput">Senha</label>
                     </div>
 
-                    <p id="auth-error-message-register" class="text-danger small text-start mb-3" style="min-height: 1.5;" ></p>
+                    <p id="auth-error-message-register" class="error text-danger small text-start mb-3" style="min-height: 1.5;" ></p>
                     <button id="register-button" type="submit" class="btn btn-success btn-lg w-100 rounded-pill shadow-sm">CRIAR CONTA</button>
                     </form>
 
@@ -101,7 +102,7 @@
                     GOOGLE
                 </button>
                 
-                <p class="text-center text-body-secondary small mt-4">
+                <p class="politica-privacidade text-center text-body-secondary small mt-4">
                     Ao entrar no GAMIF, você concorda com os nossos 
                     <a href="#" class="text-decoration-none text-primary fw-bold">Termos</a> <br>e 
                     <a href="#" class="text-decoration-none text-primary fw-bold">Política de Privacidade</a>.
@@ -119,8 +120,6 @@
             <p class="loading-message">LOADING...</p>
         </div>
     </main>
-
-    <!-- CONTAINER PARA O MENU-->
      
 </body>
 </html>

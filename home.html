@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     <script type="module" src="./script/home.js" defer></script>
-    <script type="importmap">
+    <script type="module" src="./script/auth-guard.js" defer></script>
+    <script type="importmap" defer>
        {
             "imports": {
                 "confetti-lib": "./script/confetti-js-master/dist/index.min.js", 
@@ -33,20 +34,17 @@
         </select>
     </div>
 
-
     <nav id="menu-lateral" class="position-fixed top-0 start-0 ps-3 pt-3 hidden">
-        <button id="btn-menu" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
-            aria-controls="offcanvasExample">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <i class="bi bi-list fs-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+        aria-controls="offcanvasExample"></i>
     </nav>
 
     <div class="offcanvas offcanvas-start d-flex flex-column flex-shrink-0 p-3 bg-light" tabindex="-1"
         id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width: 250px;">
 
-        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <a href="#" class="d-flex align-items-center mb-md-0 me-md-auto link-dark text-decoration-none">
             <img src="./assets/icons/GAMIF.png" alt="Module Image" id="module-header-image"
-                    style=" max-width: 150px; margin-bottom: 5px; border-radius: 8px;" class="hidden ps-3 pt-2">
+                    style=" max-width: 150px; border-radius: 8px;" class="hidden ps-3 pt-2">
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
@@ -82,7 +80,7 @@
                     <hr class="dropdown-divider">
                 </li>
                 <li>
-                    <a class="dropdown-item" href="#">
+                    <a id="logout-link" class="dropdown-item" href="#">
                         <i class="bi bi-box-arrow-in-left pe-2"></i>
                         Sair
                     </a>

@@ -54,8 +54,19 @@ html[data-bs-theme="dark"] .text-body-secondary {
     color: #adb5bd !important;
 }
 
+html[data-bs-theme="dark"] form .error {
+    color: #b32d3a !important;
+    font-weight: 700;
+    text-shadow: 1px 1px 1px #2a2a2a ;
+}
+
 .card{
     padding-bottom: 30px;
+}
+
+.card .politica-privacidade{
+    font-size: small;
+    opacity: 80%;
 }
 
 
@@ -592,6 +603,7 @@ html[data-bs-theme="dark"] footer p {
     border: none;
 }
 
+
 #login-button{
     background-color: #007bff;
     box-shadow: 0 5px 0 #0056b3 !important;
@@ -647,6 +659,10 @@ html[data-bs-theme="dark"] #theme-select option {
     color: #f8f9fa;
 }
 
+
+form .error{
+    color: #dc3545 !important;
+}
 
 
 .loading-overlay {

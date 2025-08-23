@@ -31,11 +31,11 @@
     </div>
     
     <!-- CONTAINER DE LOGIN & REGISTER-->
-    <main class="card py-1 shadow-lg rounded-4 d-flex"> 
+    <main class="container-login card py-1 shadow-lg rounded-4 d-flex"> 
         <!-- Formulário de Login -->
         <div id="login-form" class="card-body text-center mx-2"> 
             <h1 class="h2 card-title fw-bold text-primary mb-3">Entrar</h1>
-            <p class="mb-4 text-body-secondary" required>Use suas credenciais para acessar o painel de aprendizado!</p>
+            <p class="mb-4 text-body-secondary" required>Use suas credenciais para acessar o sistema!</p>
             <form>
                 <div class="form-floating mb-3"> 
                     <input type="email" id="login-email" class="form-control form-control-lg rounded-3" placeholder="E-mail ou nome de usuário" required>
@@ -52,7 +52,7 @@
                 <button id="login-button" type="submit" class="btn btn-primary btn-lg w-100 rounded-pill shadow-sm">ENTRAR</button>
             </form>
 
-            <div class="d-flex align-items-center my-3">
+            <div class="d-flex align-items-center my-2">
                 <hr class="flex-grow-1 border-secondary"> <span class="mx-3 text-muted fw-bold">OU</span> <hr class="flex-grow-1 border-secondary">
             </div>
 
@@ -63,13 +63,15 @@
             
             <p class="politica-privacidade text-center text-body-secondary small mt-4">
                 Ao entrar no GAMIF, você concorda com os nossos 
-                <a href="#" class="text-decoration-none text-primary fw-bold">Termos</a> e 
-                <a href="#" class="text-decoration-none text-primary fw-bold">Política de Privacidade</a>.
+                <a href="#" class="text-decoration-none termos-cor fw-bold">Termos</a> e 
+                <a href="#" class="text-decoration-none termos-cor fw-bold">Política de Privacidade</a>.
             </p>
             
             <p class="mt-4">Não tem uma conta? 
                 <a href="#" id="show-register" class="text-decoration-none text-primary fw-bold">CRIAR CONTA</a>
             </p>
+
+            
         </div>
 
         <!-- Formulário de Cadastro (Inicialmente Escondido) -->
@@ -78,22 +80,34 @@
                 <form>
                     <div class="form-floating my-3 ">
                         <input type="text" id="register-name" class="form-control form-control-lg rounded-3" placeholder="Nome" required>
-                        <label for="floatingInput">Nome</label>
+                        <label for="register-name">Nome</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="email" id="register-email" class="form-control form-control-lg rounded-3" placeholder="E-mail" required>
-                        <label for="floatingInput">E-mail</label>
+                        <label for="register-email">E-mail</label>
                     </div>
-                    <div class="form-floating mb-4">
+                    <div class="form-floating mb-3">
                         <input type="password" id="register-password" class="form-control form-control-lg rounded-3" placeholder="Senha" required>
-                        <label for="floatingInput">Senha</label>
+                        <label for="register-password">Senha</label>
+                        <i id="togglePassword" class="bi bi-eye-fill position-absolute px-3 end-0 top-50 translate-middle-y me-2 d-6"></i>
                     </div>
 
-                    <p id="auth-error-message-register" class="error text-danger small text-start mb-3" style="min-height: 1.5;" ></p>
+                    <p id="auth-error-message-register" class="error text-danger small text-start mb-3" style="min-height: 1.2;" ></p>
                     <button id="register-button" type="submit" class="btn btn-success btn-lg w-100 rounded-pill shadow-sm">CRIAR CONTA</button>
-                    </form>
+                </form>
 
-                <div class="d-flex align-items-center my-3">
+                <!-- Aqui entra o botão de reenviar verificação -->
+                <div id="resend-verification-container" style="display: none;" class="mt-3">
+                    <p class="text-muted small mb-2">
+                        Não recebeu o e-mail de verificação?
+                    </p>
+                    <div id="email-verification-message" style="display: none; color: green; margin-top: 10px;"></div>
+                    <button id="resend-verification-email-button" class="btn btn-outline-primary btn-sm rounded-pill">
+                        Reenviar e-mail de verificação
+                    </button>
+                </div>
+
+                <div class="d-flex align-items-center my-2">
                     <hr class="flex-grow-1 border-secondary"> <span class="mx-3 text-muted fw-bold">OU</span> <hr class="flex-grow-1 border-secondary">
                 </div>
 
@@ -104,8 +118,8 @@
                 
                 <p class="politica-privacidade text-center text-body-secondary small mt-4">
                     Ao entrar no GAMIF, você concorda com os nossos 
-                    <a href="#" class="text-decoration-none text-primary fw-bold">Termos</a> <br>e 
-                    <a href="#" class="text-decoration-none text-primary fw-bold">Política de Privacidade</a>.
+                    <a href="#" class="text-decoration-none termos-cor fw-bold">Termos</a> e 
+                    <a href="#" class="text-decoration-none termos-cor fw-bold">Política de Privacidade</a>.
                 </p>
             
             <p class="mt-4 ">Já tem uma conta? 

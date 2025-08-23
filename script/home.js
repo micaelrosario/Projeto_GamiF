@@ -10,7 +10,6 @@ import { auth, signOut, onAuthStateChanged } from './firebase-config.js';
 let statusMessage;
 
 
-
 /**
  * Lida com a seleção de resposta do usuário em uma pergunta do quiz.
  * Esta função é chamada quando o usuário clica em um botão de opção de resposta.

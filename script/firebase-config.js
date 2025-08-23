@@ -12,7 +12,8 @@ import {
     onAuthStateChanged,     // Para observar o estado de autenticação do usuário
     sendPasswordResetEmail,
     updateProfile,           // Para atualizar o perfil do usuário (ex: nome)
-    signOut
+    signOut,
+    sendEmailVerification
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js"; 
 
 
@@ -55,5 +56,6 @@ export {
   updateProfile,
   ref,
   set,
-  signOut
+  signOut,
+  sendEmailVerification
 };

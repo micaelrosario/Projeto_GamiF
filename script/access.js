@@ -1,5 +1,5 @@
 // access.js - Lógica de Autenticação e Alternância entre Login/Cadastro para GamiF
-import { auth, signInWithEmailAndPassword, sendPasswordResetEmail,signOut, onAuthStateChanged } from './firebase-config.js';
+import { auth, signInWithEmailAndPassword, sendEmailVerification,createUserWithEmailAndPassword, sendPasswordResetEmail,signOut, onAuthStateChanged } from './firebase-config.js';
 
 // --- REFERÊNCIAS AOS ELEMENTOS HTML ---
 // É crucial que os IDs no seu HTML (acesso.html) correspondam EXATAMENTE a estes aqui.
@@ -39,10 +39,13 @@ const themeSelect = document.getElementById('theme-select');
 
 const emailVerificationMessage = document.getElementById('email-verification-message');
 const resendVerificationEmailButton = document.getElementById('resend-verification-email-button');
+const togglePassword = document.getElementById('togglePassword');
 
 // Variável para controlar o tempo de início do carregamento
 let loadingStartTime = 0;
 const MIN_LOADING_DURATION = 5000; // 5 segundos em milissegundos
+
+let justRegistered = false;
 
 function clearFormInputs(formType) {
     if (formType === 'login') {
@@ -57,7 +60,6 @@ function clearFormInputs(formType) {
 
 function toggleLoadingOverlay(show, message = "LOADING...") { 
     return new Promise(resolve => { // Retorna uma Promise
-        console.log(`toggleLoadingOverlay: ${show ? 'Mostrando' : 'Escondendo'} com mensagem: "${message}"`);
         if (loadingOverlay) {
             if (show) {
                 loadingOverlay.classList.remove('hidden'); 
@@ -140,7 +142,6 @@ async function handleGoogleAuth() {
             quizzesCompleted: {} 
         });
 
-        console.log("Autenticação Google bem-sucedida!");
         await toggleLoadingOverlay(false, "Autenticando com Google...");
         window.location.href = 'home.html';
     } catch (error) {
@@ -206,7 +207,6 @@ async function handleLogin() {
             return; 
         }
 
-        console.log("Login bem-sucedido!", user); 
         clearFormInputs('login'); 
         await toggleLoadingOverlay(false, "Carregando..."); 
         window.location.href = 'home.html'; 
@@ -226,7 +226,6 @@ async function handleLogin() {
             errorMessage = `Erro do Firebase: ${error.message}`;
         }
         displayError(errorMessage, 'login'); 
-        clearFormInputs('login'); 
     }
 }
 
@@ -255,9 +254,23 @@ async function handleRegister() {
     if (password.length < 6) {
         await toggleLoadingOverlay(false); 
         displayError("A senha deve ter no mínimo 6 caracteres.", 'register');
-        clearFormInputs('register');
         return; 
     }
+
+    // --- INÍCIO DA NOVA LÓGICA DE VALIDAÇÃO DE DOMÍNIO ---
+    // Defina os domínios de e-mail permitidos
+    const allowedDomains = ['gmail.com', 'hotmail.com', 'ifba.edu.br'];
+    
+    // Extrai o domínio do e-mail
+    const emailDomain = email.split('@')[1];
+
+    // Verifica se o domínio extraído está na lista de domínios permitidos
+    if (!allowedDomains.includes(emailDomain)) {
+        await toggleLoadingOverlay(false);
+        displayError("Por favor, use um e-mail de um domínio válido.", 'register');
+        return;
+    }
+
 
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password); 
@@ -277,11 +290,18 @@ async function handleRegister() {
             quizzesCompleted: {} 
         });
 
-        console.log("Cadastro bem-sucedido!", user);
+        // ENVIA E-MAIL DE VERIFICAÇÃO
+        await sendEmailVerification(user); // <- Isso é obrigatório
+
+        justRegistered = true;
+        // Mostra mensagem para o usuário
+        displayEmailVerificationMessage(
+            `Sua conta foi criada! Um e-mail de verificação foi enviado para ${email}. 
+            Por favor, verifique sua caixa de entrada (e spam).`
+        );
+
         clearFormInputs('register');
         await toggleLoadingOverlay(false); 
-        window.location.href = 'home.html'; 
-        displayEmailVerificationMessage("Sua conta foi criada! Um e-mail de verificação foi enviado para " + email + ". Por favor, verifique sua caixa de entrada (e spam).");
 
     } catch (error) {
         await toggleLoadingOverlay(false);
@@ -298,7 +318,6 @@ async function handleRegister() {
             errorMessage = `Erro do Firebase: ${error.message}`;
         }
         displayError(errorMessage, 'register');
-        clearFormInputs('register');
     }
 }
 
@@ -356,7 +375,6 @@ async function handleResendVerificationEmail() {
             await sendEmailVerification(user);
             await toggleLoadingOverlay(false); // AGUARDA O OVERLAY DESAPARECER
             displayEmailVerificationMessage("E-mail de verificação reenviado para " + user.email + ". Por favor, verifique sua caixa de entrada (e spam).");
-            console.log("E-mail de verificação reenviado.");
         } catch (error) {
             await toggleLoadingOverlay(false); // AGUARDA O OVERLAY DESAPARECER
             displayEmailVerificationMessage("Erro ao reenviar e-mail de verificação: " + error.message, true);
@@ -368,6 +386,14 @@ async function handleResendVerificationEmail() {
 }
 
 
+togglePassword.addEventListener('click', () => {
+    const type = registerPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    registerPasswordInput.setAttribute('type', type);
+
+    // Alterna o ícone entre olho aberto e olho fechado
+    togglePassword.classList.toggle('bi-eye-fill');
+    togglePassword.classList.toggle('bi-eye-slash-fill');
+});
 
 // --- ADICIONAR LISTENERS DE EVENTOS ---
 if (loginButton) {
@@ -456,23 +482,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     await toggleLoadingOverlay(false, "Carregando..."); 
     // Após o carregamento inicial, verifica o estado de autenticação
     onAuthStateChanged(auth, async (user) => { // onAuthStateChanged também precisa ser async
-        console.log("onAuthStateChanged disparado. Usuário:", user ? user.uid : "Nenhum");
+        if (justRegistered) {
+            // Apenas reseta a flag e não redireciona
+            justRegistered = false;
+            return;
+        }
         if (user) {
-            console.log("Usuário já logado:", user.uid);
             if (!user.emailVerified) {
                 await signOut(auth); 
                 showContent('login');
-                displayEmailVerificationMessage("Seu e-mail não foi verificado. Por favor, verifique sua caixa de entrada (e spam) ou clique em 'Reenviar E-mail de Verificação'.", true);
+                displayEmailVerificationMessage("Seu e-mail não foi verificado. Por favor, verifique sua caixa de entrada (e spam).", true);
             } else {
                 showContent('home'); 
             }
         } else {
-            console.log("Nenhum usuário logado.");
             showContent('login'); 
         }
         // AGORA O OVERLAY VAI DEMORAR 5 SEGUNDOS ANTES DE ESCONDER
         await toggleLoadingOverlay(false); 
-        console.log("Loading overlay escondido após onAuthStateChanged.");
     });
 });
 
@@ -494,7 +521,6 @@ function applyTheme(theme) {
         if (themeSelect) {
             themeSelect.value = theme;
         }
-        console.log(`Tema aplicado: ${actualTheme} (preferência: ${theme})`);
     }
 }
 

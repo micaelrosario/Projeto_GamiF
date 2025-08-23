@@ -47,8 +47,13 @@ html[data-bs-theme="dark"] a:not(.btn) {
 
 
 html[data-bs-theme="dark"] a.text-primary {
+    color: #adb5bd !important;
+}
+
+html[data-bs-theme="dark"] a.text-primary {
     color: #9ec5fe !important;
 }
+
 
 html[data-bs-theme="dark"] .text-body-secondary {
     color: #adb5bd !important;
@@ -67,6 +72,10 @@ html[data-bs-theme="dark"] form .error {
 .card .politica-privacidade{
     font-size: small;
     opacity: 80%;
+}
+
+.container-login{
+    max-width: 450px;
 }
 
 
